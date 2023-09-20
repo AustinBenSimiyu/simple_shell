@@ -1,105 +1,62 @@
 #include "shell.h"
+
 /**
- * print_env - prints all the environment variables
+ * env - prints the current_environnement
+ * @tokenized_command: command entered
  *
- *Return: Void
+ * Return: void
  */
-void print_env(void)
-{
-	int i, j;
-	char *s = *environ;
 
-	for (i = 1; s != NULL; i++)
+void env(char **tokenized_command __attribute__((unused)))
+{
+	int i;
+
+	for (i = 0; environ[i] != NULL; i++)
 	{
-		j = 0;
-		while (s[j])
+		print(environ[i], STDOUT_FILENO);
+		print("\n", STDOUT_FILENO);
+	}
+}
+
+/**
+ * quit - exits the shell
+ * @tokenized_command: command entered
+ *
+ * Return: void
+ */
+
+void quit(char **tokenized_command)
+{
+	int num_token = 0, arg;
+
+	for (; tokenized_command[num_token] != NULL; num_token++)
+		;
+	if (num_token == 1)
+	{
+		free(tokenized_command);
+		free(line);
+		free(commands);
+		exit(status);
+	}
+	else if (num_token == 2)
+	{
+		arg = _atoi(tokenized_command[1]);
+		if (arg == -1)
 		{
-			write(1, &s[j], 1);
-			j++;
+			print(shell_name, STDERR_FILENO);
+			print(": 1: exit: Illegal number: ", STDERR_FILENO);
+			print(tokenized_command[1], STDERR_FILENO);
+			print("\n", STDERR_FILENO);
+			status = 2;
 		}
-		write(1, "\n", 1);
-		s = environ[i];
-	}
-
-}
-
-
-/**
- * change_dir - change directory with builtin cd
- * @argvv: array of string arguments
- * Return: Void
- */
-void change_dir(char **argvv)
-{
-	char *pth;
-	int i, j;
-
-	if (argvv[1] == NULL)
-		pth = getenv("HOME");
-	else if (_strcmp(argvv[1], "-") == 0)
-	{
-		pth = getenv("PWD");
-		for (i = 0; pth[i]; i++)
-			;
-		for (j = i; pth[j] != '/'; j--)
-			;
-		if (pth[j] == '/')
-			pth[j] = '\0';
+		else
+		{
+			free(line);
+			free(tokenized_command);
+			free(commands);
+			exit(arg);
+		}
 	}
 	else
-		pth = argvv[1];
-	if (chdir(pth) == -1)
-		perror("lsh");
-	getenv("PWD");
-}
-
-/**
- * __exit - exit with status given in arguments
- * @argvv:array of strings to execute builtin
- *Return: Void
- */
-void __exit(char **argvv)
-{
-	if (argvv[1] == NULL)
-	{
-		free(argvv);
-		exit(0);
-	}
-	else
-	{
-		free(argvv);
-		exit(_atoi(argvv[1]));
-	}
-}
-
-
-/* Function to execute builtin */
-/**
- * builtins - execute builtins
- * @argvv:array of strings to execute builtin
- * @i: index of builtin
- *Return: Void
- */
-void builtins(char **argvv, int i)
-{
-
-	switch (i)
-	{
-	case 1:
-
-		__exit(argvv);
-		break;
-	case 2:
-		change_dir(argvv);
-		break;
-	case 3:
-		puts("shell: help: not found");
-		break;
-	case 4:
-		print_env();
-		break;
-	default:
-		break;
-	}
-
+		print("$: exit doesn't take more than one argument\n", STDERR_FILENO);
 }
