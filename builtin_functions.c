@@ -33,6 +33,7 @@ void change_dir(char **argvv)
 {
 	char *pth;
 	int i, j;
+
 	if (argvv[1] == NULL)
 		pth = getenv("HOME");
 	else if (_strcmp(argvv[1], "-") == 0)

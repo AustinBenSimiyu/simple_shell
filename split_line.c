@@ -10,6 +10,7 @@ char **split_line(char *line, int bufsize)
 	char *token = NULL;
 	int i = 0;
 	char **argvv = malloc(sizeof(char *) * bufsize);
+
 	if (!argvv)
 	{
 		write(STDERR_FILENO, "hsh: allocation error\n", 22);
@@ -26,7 +27,7 @@ char **split_line(char *line, int bufsize)
 		if (i >= bufsize)
 		{
 		bufsize += BUFFER_LEN;
-		argvv = _realloc(argvv, sizeof(argvv), bufsize *sizeof(char *));
+		argvv = _realloc(argvv, sizeof(argvv), bufsize * sizeof(char *));
 		if (!argvv)
 		{
 			write(STDERR_FILENO, "hsh: allocation error\n", 22);
