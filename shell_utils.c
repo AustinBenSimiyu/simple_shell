@@ -39,100 +39,65 @@ int parse_command(char *command)
 
 /**
  * execute_command - executes a command based on it's type
- * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
- * @command_type: type of the command
+ * @tkncmd: tokenized form of the command (ls -l == {ls, -l, NULL})
+ * @cmmds: type of the command
  *
  * Return: void
  */
-void execute_command(char **tokenized_command, int command_type)
+void execute_command(char **tkncmd, int cmmds)
 {
 	void (*func)(char **command);
 
-	if (command_type == EXTERNAL_COMMAND)
+	if (cmmds == EXTERNAL_COMMAND)
 	{
-		if (execve(tokenized_command[0], tokenized_command, NULL) == -1)
+		if (execve(tkncmd[0], tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (command_type == PATH_COMMAND)
+	if (cmmds == PATH_COMMAND)
 	{
-		if (execve(check_path(tokenized_command[0]), tokenized_command, NULL) == -1)
+		if (execve(check_path(tkncmd[0]), tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (command_type == INTERNAL_COMMAND)
+	if (cmmds == INTERNAL_COMMAND)
 	{
-		func = get_func(tokenized_command[0]);
-		func(tokenized_command);
+		func = get_func(tkncmd[0]);
+		func(tkncmd);
 	}
-	if (command_type == INVALID_COMMAND)
+	if (cmmds == INVALID_COMMAND)
 	{
 		print(shell_name, STDERR_FILENO);
 		print(": 1: ", STDERR_FILENO);
-		print(tokenized_command[0], STDERR_FILENO);
+		print(tkncmd[0], STDERR_FILENO);
 		print(": not found\n", STDERR_FILENO);
 		status = 127;
 	}
 }
 
 /**
- * check_path - checks if a command is found in the PATH
- * @command: command to be used
- *
- * Return: path where the command is found in, NULL if not found
- */
-char *check_path(char *command)
-{
-	char **path_array = NULL;
-	char *temp, *temp2, *path_cpy;
-	char *path = _getenv("PATH");
-	int i;
-
-	if (path == NULL || _strlen(path) == 0)
-		return (NULL);
-	path_cpy = malloc(sizeof(*path_cpy) * (_strlen(path) + 1));
-	_strcpy(path, path_cpy);
-	path_array = tkn(path_cpy, ":");
-	for (i = 0; path_array[i] != NULL; i++)
-	{
-		temp2 = _strcat(path_array[i], "/");
-		temp = _strcat(temp2, command);
-		if (access(temp, F_OK) == 0)
-		{
-			free(temp2);
-			free(path_array);
-			free(path_cpy);
-			return (temp);
-		}
-		free(temp);
-		free(temp2);
-	}
-	free(path_cpy);
-	free(path_array);
-	return (NULL);
-}
-
-/**
- * get_func - retrieves a function based on the command given and a mapping
+ * get_func - retrieves a function based on the cmd given and a mapping
  * @command: string to check against the mapping
  *
  * Return: pointer to the proper function, or null on fail
  */
 void (*get_func(char *command))(char **)
 {
-	int i;
+	int i = 0;
+
 	function_map mapping[] = {
 		{"env", env}, {"exit", quit}
 	};
 
-	for (i = 0; i < 2; i++)
+	while (i < 2)
 	{
 		if (_strcmp(command, mapping[i].command_name) == 0)
 			return (mapping[i].func);
+		i++;
 	}
 	return (NULL);
 }
@@ -145,20 +110,58 @@ void (*get_func(char *command))(char **)
  */
 char *_getenv(char *name)
 {
-	char **my_environ;
-	char *pair_ptr;
-	char *name_cpy;
+	char **envme;
+	char *ptrtwo;
+	char *cpy;
 
-	for (my_environ = environ; *my_environ != NULL; my_environ++)
+	for (envme = environ; *envme != NULL; envme++)
 	{
-		for (pair_ptr = *my_environ, name_cpy = name;
-		     *pair_ptr == *name_cpy; pair_ptr++, name_cpy++)
+		for (ptrtwo = *envme, cpy = name;
+		     *ptrtwo == *cpy; ptrtwo++, cpy++)
 		{
-			if (*pair_ptr == '=')
+			if (*ptrtwo == '=')
 				break;
 		}
-		if ((*pair_ptr == '=') && (*name_cpy == '\0'))
-			return (pair_ptr + 1);
+		if ((*ptrtwo == '=') && (*cpy == '\0'))
+			return (ptrtwo + 1);
 	}
 	return (NULL);
 }
+
+/**
+ * check_path - checks if a command is found in the PATH
+ * @cmd: cmd to be used
+ *
+ * Return: path where the cmd is found in, NULL if not found
+ */
+char *check_path(char *cmd)
+{
+	char **array = NULL;
+	char *tmp, *tmp2, *path_cpy;
+	char *path = _getenv("PATH");
+	int i;
+
+	if (path == NULL || _strlen(path) == 0)
+		return (NULL);
+	path_cpy = malloc(sizeof(*path_cpy) * (_strlen(path) + 1));
+	_strcpy(path, path_cpy);
+	array = tkn(path_cpy, ":");
+	for (i = 0; array[i] != NULL; i++)
+	{
+		tmp2 = _strcat(array[i], "/");
+		tmp = _strcat(tmp2, cmd);
+		if (access(tmp, F_OK) == 0)
+		{
+			free(tmp2);
+			free(array);
+			free(path_cpy);
+			return (tmp);
+		}
+		free(tmp);
+		free(tmp2);
+	}
+	free(path_cpy);
+	free(array);
+	return (NULL);
+}
+

@@ -7,23 +7,20 @@
 
 /**
  * main - the main shell code
- * @argc: number of arguments passed
- * @argv: program arguments to be parsed
- *
- * applies the functions in utils and helpers
- * implements EOF
+ * @ac: number of arguments passed
+ * @av: program arguments to be parsed
  * Prints error on Failure
  * Return: 0 on success
  */
 
-int main(int argc __attribute__((unused)), char **argv)
+int main(int ac __attribute__((unused)), char **av)
 {
-	char **current_command = NULL;
-	int i, type_command = 0;
+	char **cmd = NULL;
+	int i = 0, inputcmd = 0;
 	size_t n = 0;
 
 	signal(SIGINT, controlc);
-	shell_name = argv[0];
+	shell_name = av[0];
 	while (1)
 	{
 		non_interactive();
@@ -37,19 +34,19 @@ int main(int argc __attribute__((unused)), char **argv)
 			delete_cmt(line);
 			commands = tkn(line, ";");
 
-		for (i = 0; commands[i] != NULL; i++)
+		for (; commands[i] != NULL; i++)
 		{
-			current_command = tkn(commands[i], " ");
-			if (current_command[0] == NULL)
+			cmd = tkn(commands[i], " ");
+			if (cmd[0] == NULL)
 			{
-				free(current_command);
+				free(cmd);
 				break;
 			}
-			type_command = parse_command(current_command[0]);
+			inputcmd = parse_command(cmd[0]);
 
 			/* initializer -   */
-			initializer(current_command, type_command);
-			free(current_command);
+			initializer(cmd, inputcmd);
+			free(cmd);
 		}
 		free(commands);
 	}
