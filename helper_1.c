@@ -2,23 +2,22 @@
 
 /**
  * _strcmp - compare two strings
- * @first: first string to be compared
- * @second: second string to be compared
+ * @one: one string to be compared
+ * @two: second string to be compared
  *
  * Return: difference of the two strings
  */
 
-int _strcmp(char *first, char *second)
+int _strcmp(char *one, char *two)
 {
 	int i = 0;
 
-	while (first[i] != '\0')
+	for (; one[i] != '\0'; i++)
 	{
-		if (first[i] != second[i])
+		if (one[i] != two[i])
 			break;
-		i++;
 	}
-	return (first[i] - second[i]);
+	return (one[i] - two[i]);
 }
 
 /**
@@ -88,20 +87,20 @@ int _strcspn(char *str1, char *str2)
 
 /**
  * _strchr - locates a char in a string
- * @s: string to be searched
- * @c: char to be checked
+ * @str: string to be searched
+ * @cc: char to be checked
  *
  * Return: pointer to the first occurence of c in s
  */
 
-char *_strchr(char *s, char c)
+char *_strchr(char *str, char cc)
 {
 	int i = 0;
 
-	for (; s[i] != c && s[i] != '\0'; i++)
+	for (; str[i] != cc && str[i] != '\0'; i++)
 		;
-	if (s[i] == c)
-		return (s + i);
+	if (str[i] == cc)
+		return (str + i);
 	else
 		return (NULL);
 }

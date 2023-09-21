@@ -2,101 +2,103 @@
 
 /**
  * _strtok - tokenizes a string
- * @string: string to be tokenized
+ * @str: string to be tokenized
  * @delim: delimiter to be used to tokenize the string
- * @save_ptr: pointer to be used to keep track of the next token
+ * @ptr_s: pointer to be used to keep track of the next token
  *
  * Return: The next available token
  */
-char *_strtok(char *string, char *delim, char **save_ptr)
+char *_strtok(char *str, char *delim, char **ptr_s)
 {
-	char *finish;
+	char *ends;
 
-	if (string == NULL)
-		string = *save_ptr;
+	if (str == NULL)
+		str = *ptr_s;
 
-	if (*string == '\0')
+	if (*str == '\0')
 	{
-		*save_ptr = string;
+		*ptr_s = str;
 		return (NULL);
 	}
 
-	string += _strspn(string, delim);
-	if (*string == '\0')
+	str += _strspn(str, delim);
+	if (*str == '\0')
 	{
-		*save_ptr = string;
+		*ptr_s = str;
 		return (NULL);
 	}
 
-	finish = string + _strcspn(string, delim);
-	if (*finish == '\0')
+	ends = str + _strcspn(str, delim);
+	if (*ends == '\0')
 	{
-		*save_ptr = finish;
-		return (string);
+		*ptr_s = ends;
+		return (str);
 	}
 
-	*finish = '\0';
-	*save_ptr = finish + 1;
-	return (string);
+	*ends = '\0';
+	*ptr_s = ends + 1;
+	return (str);
 }
 
 /**
  * _atoi - changes a string to an integer
- * @s: the string to be changed
+ * @str: the string to be changed
  *
  * Return: the converted int
  */
-int _atoi(char *s)
+int _atoi(char *str)
 {
 	unsigned int n = 0;
 
 	do {
-		if (*s == '-')
+		if (*str == '-')
 			return (-1);
-		else if ((*s < '0' || *s > '9') && *s != '\0')
+		else if ((*str < '0' || *str > '9') && *str != '\0')
 			return (-1);
-		else if (*s >= '0'  && *s <= '9')
-			n = (n * 10) + (*s - '0');
+		else if (*str >= '0'  && *str <= '9')
+			n = (n * 10) + (*str - '0');
 		else if (n > 0)
 			break;
-	} while (*s++);
+	} while (*str++);
 	return (n);
 }
 
 /**
  * _realloc - reallocates a memory block
  * @ptr: pointer to the memory previously allocated with a call to malloc
- * @old_size: size of ptr
- * @new_size: size of the new memory to be allocated
+ * @os: size of ptr
+ * @ns: size of the new memory to be allocated
  *
  * Return: pointer to the address of the new memory block
  */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+void *_realloc(void *ptr, unsigned int os, unsigned int ns)
 {
-	void *temp_block;
-	unsigned int i;
+	void *blockers;
+	unsigned int i = 0;
 
 	if (ptr == NULL)
 	{
-		temp_block = malloc(new_size);
-		return (temp_block);
+		blockers = malloc(ns);
+		return (blockers);
 	}
-	else if (new_size == old_size)
+	else if (ns == os)
 		return (ptr);
-	else if (new_size == 0 && ptr != NULL)
+	else if (ns == 0 && ptr != NULL)
 	{
 		free(ptr);
 		return (NULL);
 	}
 	else
 	{
-		temp_block = malloc(new_size);
-		if (temp_block != NULL)
+		blockers = malloc(ns);
+		if (blockers != NULL)
 		{
-			for (i = 0; i < min(old_size, new_size); i++)
-				*((char *)temp_block + i) = *((char *)ptr + i);
+			for (; i < min(os, ns); i++)
+			{
+				*((char *)blockers + i) = *((char *)ptr + i);
+			}
 			free(ptr);
-			return (temp_block);
+			return (blockers);
 		}
 		else
 			return (NULL);
