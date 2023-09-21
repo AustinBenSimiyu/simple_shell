@@ -59,7 +59,7 @@ char *_strtok(char *, char *, char **);
 int _atoi(char *);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void controlc(int);
-void remove_comment(char *);
+void delete_cmt(char *);
 
 /*utils*/
 int parse_command(char *);

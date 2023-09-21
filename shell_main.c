@@ -34,7 +34,7 @@ int main(int argc __attribute__((unused)), char **argv)
 			exit(status);
 		}
 			deletel(line);
-			remove_comment(line);
+			delete_cmt(line);
 			commands = tkn(line, ";");
 
 		for (i = 0; commands[i] != NULL; i++)

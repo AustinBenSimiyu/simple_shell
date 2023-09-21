@@ -17,7 +17,7 @@ void non_interactive(void)
 		while (getline(&line, &n, stdin) != -1)
 		{
 			deletel(line);
-			remove_comment(line);
+			delete_cmt(line);
 			commands = tkn(line, ";");
 			for (i = 0; commands[i] != NULL; i++)
 			{
