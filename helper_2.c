@@ -2,65 +2,65 @@
 
 /**
  * _strtok - tokenizes a string
- * @string: string to be tokenized
- * @delim: delimiter to be used to tokenize the string
- * @save_ptr: pointer to be used to keep track of the next token
+ * @str: str to be tokenized
+ * @delim: delimiter to be used to tokenize the str
+ * @sptr: pointer to be used to keep track of the next token
  *
  * Return: The next available token
  */
-char *_strtok(char *string, char *delim, char **save_ptr)
+char *_strtok(char *str, char *delim, char **sptr)
 {
-	char *finish;
+	char *endss;
 
-	if (string == NULL)
-		string = *save_ptr;
+	if (str == NULL)
+		str = *sptr;
 
-	if (*string == '\0')
+	if (*str == '\0')
 	{
-		*save_ptr = string;
+		*sptr = str;
 		return (NULL);
 	}
 
-	string += _strspn(string, delim);
-	if (*string == '\0')
+	str += _strspn(str, delim);
+	if (*str == '\0')
 	{
-		*save_ptr = string;
+		*sptr = str;
 		return (NULL);
 	}
 
-	finish = string + _strcspn(string, delim);
-	if (*finish == '\0')
+	endss = str + _strcspn(str, delim);
+	if (*endss == '\0')
 	{
-		*save_ptr = finish;
-		return (string);
+		*sptr = endss;
+		return (str);
 	}
 
-	*finish = '\0';
-	*save_ptr = finish + 1;
-	return (string);
+	*endss = '\0';
+	*sptr = endss + 1;
+	return (str);
 }
 
 /**
  * _atoi - changes a string to an integer
- * @s: the string to be changed
+ * @str: the string to be changed
  *
  * Return: the converted int
  */
-int _atoi(char *s)
+int _atoi(char *str)
 {
-	unsigned int n = 0;
+	unsigned int a = 0;
 
 	do {
-		if (*s == '-')
+		if (*str == '-')
 			return (-1);
-		else if ((*s < '0' || *s > '9') && *s != '\0')
+		else if ((*str < '0' || *str > '9') && *str != '\0')
 			return (-1);
-		else if (*s >= '0'  && *s <= '9')
-			n = (n * 10) + (*s - '0');
-		else if (n > 0)
+		else if (*str >= '0'  && *str <= '9')
+			a = (a * 10) + (*str - '0');
+		else if (a > 0)
 			break;
-	} while (*s++);
-	return (n);
+	} while (*str++);
+	return (a);
 }
 
 /**
@@ -73,13 +73,13 @@ int _atoi(char *s)
  */
 void *_realloc(void *ptr, unsigned int os, unsigned int ns)
 {
-	void *temp_block;
-	unsigned int i;
+	void *tblk;
+	unsigned int i = 0;
 
 	if (ptr == NULL)
 	{
-		temp_block = malloc(ns);
-		return (temp_block);
+		tblk = malloc(ns);
+		return (tblk);
 	}
 	else if (ns == os)
 		return (ptr);
@@ -90,13 +90,13 @@ void *_realloc(void *ptr, unsigned int os, unsigned int ns)
 	}
 	else
 	{
-		temp_block = malloc(ns);
-		if (temp_block != NULL)
+		tblk = malloc(ns);
+		if (tblk != NULL)
 		{
-			for (i = 0; i < min(os, ns); i++)
-				*((char *)temp_block + i) = *((char *)ptr + i);
+			for (; i < min(os, ns); i++)
+				*((char *)tblk + i) = *((char *)ptr + i);
 			free(ptr);
-			return (temp_block);
+			return (tblk);
 		}
 		else
 			return (NULL);
@@ -113,7 +113,7 @@ void *_realloc(void *ptr, unsigned int os, unsigned int ns)
 void controlc(int signum)
 {
 	if (signum == SIGINT)
-		print("\n($) ", STDIN_FILENO);
+		print("\a($) ", STDIN_FILENO);
 }
 
 /**
@@ -128,11 +128,10 @@ void deletec(char *input)
 
 	if (input[i] == '#')
 		input[i] = '\0';
-	while (input[i] != '\0')
+	for (; input[i] != '\0'; i++)
 	{
 		if (input[i] == '#' && input[i - 1] == ' ')
 			break;
-		i++;
 	}
 	input[i] = '\0';
 }
