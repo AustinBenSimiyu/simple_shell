@@ -9,7 +9,7 @@
 void non_interactive(void)
 {
 	char **current_command = NULL;
-	int i = 0, type_command = 0;
+	int i, type_command = 0;
 	size_t n = 0;
 
 	if (!(isatty(STDIN_FILENO)))
@@ -19,7 +19,7 @@ void non_interactive(void)
 			remove_newline(line);
 			remove_comment(line);
 			commands = tokenizer(line, ";");
-			for (; commands[i] != NULL; i++)
+			for (i = 0; commands[i] != NULL; i++)
 			{
 				current_command = tokenizer(commands[i], " ");
 				if (current_command[0] == NULL)

@@ -5,6 +5,11 @@
  * @command: command to be parsed
  *
  * Return: constant representing the type of the command
+ * Description -
+ * EXTERNAL_COMMAND (1) represents commands like /bin/ls
+ * INTERNAL_COMMAND (2) represents commands like exit, env
+ * PATH_COMMAND (3) represents commands found in the PATH like ls
+ * INVALID_COMMAND (-1) represents invalid commands
  */
 
 int parse_command(char *command)
@@ -124,12 +129,12 @@ char *check_path(char *command)
 
 void (*get_func(char *command))(char **)
 {
-	int i = 0;
+	int i;
 	function_map mapping[] = {
 		{"env", env}, {"exit", quit}
 	};
 
-	for (; i < 2; i++)
+	for (i = 0; i < 2; i++)
 	{
 		if (_strcmp(command, mapping[i].command_name) == 0)
 			return (mapping[i].func);
