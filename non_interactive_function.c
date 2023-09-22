@@ -19,7 +19,7 @@ void non_interactive(void)
 			deletel(line);
 			delete_cmt(line);
 			commands = tkn(line, ";");
-			while (commands[i] != NULL)
+			for (; commands[i] != NULL; i++)
 			{
 				cc = tkn(commands[i], " ");
 				if (cc[0] == NULL)
@@ -30,7 +30,6 @@ void non_interactive(void)
 				enterc = parse_command(cc[0]);
 				initializer(cc, enterc);
 				free(cc);
-				i++;
 			}
 			free(commands);
 		}

@@ -39,7 +39,6 @@ char *_strcat(char *dest, char *src)
 	_strcpy(dest, sn);
 	_strcpy(src, sn + ld);
 	sn[ld + ls] = '\0';
-
 	return (sn);
 }
 
@@ -63,7 +62,6 @@ int _strspn(char *str1, char *str2)
 		match++;
 		i++;
 	}
-
 	return (match);
 }
 
@@ -85,7 +83,6 @@ int _strcspn(char *str1, char *str2)
 			break;
 		len++;
 	}
-
 	return (len);
 }
 
@@ -104,11 +101,7 @@ char *_strchr(char *str, char cc)
 	for (; str[i] != cc && str[i] != '\0'; i++)
 		;
 	if (str[i] == cc)
-	{
 		return (str + i);
-	}
 	else
-	{
 		return (NULL);
-	}
 }

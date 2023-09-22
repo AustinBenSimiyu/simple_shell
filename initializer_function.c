@@ -10,21 +10,19 @@
 
 void initializer(char **ccone, int enterc)
 {
-	pid_t PID;
+	pid_t PIDD;
 
 	if (enterc == EXTERNAL_COMMAND || enterc == PATH_COMMAND)
 	{
-		PID = fork();
-		if (PID == 0)
+		PIDD = fork();
+		if (PIDD == 0)
 			execute_command(ccone, enterc);
 		else
 		{
-			waitpid(PID, &status, 0);
+			waitpid(PIDD, &status, 0);
 			status >>= 8;
 		}
 	}
 	else
-	{
 		execute_command(ccone, enterc);
-	}
 }
