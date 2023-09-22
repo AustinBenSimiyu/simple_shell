@@ -43,7 +43,7 @@ extern int status;
 /*helpers*/
 void print(char *, int);
 char **tknz(char *, char *);
-void remove_newline(char *);
+void deletel(char *);
 int _strlen(char *);
 void _strcpy(char *, char *);
 

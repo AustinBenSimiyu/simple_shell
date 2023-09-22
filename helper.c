@@ -53,7 +53,7 @@ void print(char *string, int stream)
  * Return: void
  */
 
-void remove_newline(char *str)
+void deletel(char *str)
 {
 	int i = 0;
 

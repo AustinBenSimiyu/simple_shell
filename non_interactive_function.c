@@ -16,7 +16,7 @@ void non_interactive(void)
 	{
 		while (getline(&line, &n, stdin) != -1)
 		{
-			remove_newline(line);
+			deletel(line);
 			deletec(line);
 			commands = tknz(line, ";");
 			for (i = 0; commands[i] != NULL; i++)
