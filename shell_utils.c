@@ -21,7 +21,7 @@ int checkcmd(char *cmd)
 		if (cmd[a] == '/')
 			return (EXTERNAL_COMMAND);
 	}
-	for (; internal_command[a] != NULL; a++)
+	for (a = 0; internal_command[a] != NULL; a++)
 	{
 		if (_strcmp(cmd, internal_command[a]) == 0)
 			return (INTERNAL_COMMAND);
