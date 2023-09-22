@@ -2,43 +2,43 @@
 
 /**
  * _strtok_r - tokenizes a string
- * @string: string to be tokenized
+ * @str: string to be tokenized
  * @delim: delimiter to be used to tokenize the string
- * @save_ptr: pointer to be used to keep track of the next token
+ * @sptr: pointer to be used to keep track of the next token
  *
  * Return: The next available token
  */
 
-char *_strtok_r(char *string, char *delim, char **save_ptr)
+char *_strtok_r(char *str, char *delim, char **sptr)
 {
-	char *finish;
+	char *endss;
 
-	if (string == NULL)
-		string = *save_ptr;
+	if (str == NULL)
+		str = *sptr;
 
-	if (*string == '\0')
+	if (*str == '\0')
 	{
-		*save_ptr = string;
+		*sptr = str;
 		return (NULL);
 	}
 
-	string += _strspn(string, delim);
-	if (*string == '\0')
+	str += _strspn(str, delim);
+	if (*str == '\0')
 	{
-		*save_ptr = string;
+		*sptr = str;
 		return (NULL);
 	}
 
-	finish = string + _strcspn(string, delim);
-	if (*finish == '\0')
+	endss = str + _strcspn(str, delim);
+	if (*endss == '\0')
 	{
-		*save_ptr = finish;
-		return (string);
+		*sptr = endss;
+		return (str);
 	}
 
-	*finish = '\0';
-	*save_ptr = finish + 1;
-	return (string);
+	*endss = '\0';
+	*sptr = endss + 1;
+	return (str);
 }
 
 /**
@@ -62,44 +62,45 @@ int _atoi(char *s)
 		else if (n > 0)
 			break;
 	} while (*s++);
+
 	return (n);
 }
 
 /**
  * _realloc - reallocates a memory block
  * @ptr: pointer to the memory previously allocated with a call to malloc
- * @old_size: size of ptr
- * @new_size: size of the new memory to be allocated
+ * @os: size of ptr
+ * @ns: size of the new memory to be allocated
  *
  * Return: pointer to the address of the new memory block
  */
 
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+void *_realloc(void *ptr, unsigned int os, unsigned int ns)
 {
-	void *temp_block;
-	unsigned int i;
+	void *tmpbk;
+	unsigned int i = 0;
 
 	if (ptr == NULL)
 	{
-		temp_block = malloc(new_size);
-		return (temp_block);
+		tmpbk = malloc(ns);
+		return (tmpbk);
 	}
-	else if (new_size == old_size)
+	else if (ns == os)
 		return (ptr);
-	else if (new_size == 0 && ptr != NULL)
+	else if (ns == 0 && ptr != NULL)
 	{
 		free(ptr);
 		return (NULL);
 	}
 	else
 	{
-		temp_block = malloc(new_size);
-		if (temp_block != NULL)
+		tmpbk = malloc(ns);
+		if (tmpbk != NULL)
 		{
-			for (i = 0; i < min(old_size, new_size); i++)
-				*((char *)temp_block + i) = *((char *)ptr + i);
+			for (; i < min(os, ns); i++)
+				*((char *)tmpbk + i) = *((char *)ptr + i);
 			free(ptr);
-			return (temp_block);
+			return (tmpbk);
 		}
 		else
 			return (NULL);
@@ -108,12 +109,12 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * ctrl_c_handler - handles the signal raised by CTRL-C
+ * controlc - handles the signal raised by CTRL-C
  * @signum: signal number
  *
  * Return: void
  */
-void ctrl_c_handler(int signum)
+void controlc(int signum)
 {
 	if (signum == SIGINT)
 		print("\n($) ", STDIN_FILENO);

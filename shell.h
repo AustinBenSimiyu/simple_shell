@@ -57,8 +57,8 @@ char *_strchr(char *, char);
 /*helpers3*/
 char *_strtok_r(char *, char *, char **);
 int _atoi(char *);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-void ctrl_c_handler(int);
+void *_realloc(void *ptr, unsigned int os, unsigned int ns);
+void controlc(int);
 void deletec(char *);
 
 /*utils*/
