@@ -12,24 +12,24 @@
  */
 int checkcmd(char *command)
 {
-	int a = 0;
+	int i;
 	char *internal_command[] = {"env", "exit", NULL};
-	char *pth = NULL;
+	char *path = NULL;
 
-	for (a = 0; command[a] != '\0'; a++)
+	for (i = 0; command[i] != '\0'; i++)
 	{
-		if (command[a] == '/')
+		if (command[i] == '/')
 			return (EXTERNAL_COMMAND);
 	}
-	for (; internal_command[a] != NULL; a++)
+	for (i = 0; internal_command[i] != NULL; i++)
 	{
-		if (_strcmp(command, internal_command[a]) == 0)
+		if (_strcmp(command, internal_command[i]) == 0)
 			return (INTERNAL_COMMAND);
 	}
-	pth = pathc(command);
-	if (pth != NULL)
+	path = pathc(command);
+	if (path != NULL)
 	{
-		free(pth);
+		free(path);
 		return (PATH_COMMAND);
 	}
 
@@ -38,80 +38,80 @@ int checkcmd(char *command)
 
 /**
  * execcmd - executes a command based on it's type
- * @tkncmd: tokenized form of the command (ls -l == {ls, -l, NULL})
- * @tcmd: type of the command
+ * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
+ * @command_type: type of the command
  *
  * Return: void
  */
-void execcmd(char **tkncmd, int tcmd)
+void execcmd(char **tokenized_command, int command_type)
 {
 	void (*func)(char **command);
 
-	if (tcmd == EXTERNAL_COMMAND)
+	if (command_type == EXTERNAL_COMMAND)
 	{
-		if (execve(tkncmd[0], tkncmd, NULL) == -1)
+		if (execve(tokenized_command[0], tokenized_command, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (tcmd == PATH_COMMAND)
+	if (command_type == PATH_COMMAND)
 	{
-		if (execve(pathc(tkncmd[0]), tkncmd, NULL) == -1)
+		if (execve(pathc(tokenized_command[0]), tokenized_command, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (tcmd == INTERNAL_COMMAND)
+	if (command_type == INTERNAL_COMMAND)
 	{
-		func = get_func(tkncmd[0]);
-		func(tkncmd);
+		func = get_func(tokenized_command[0]);
+		func(tokenized_command);
 	}
-	if (tcmd == INVALID_COMMAND)
+	if (command_type == INVALID_COMMAND)
 	{
 		print(shell_name, STDERR_FILENO);
 		print(": 1: ", STDERR_FILENO);
-		print(tkncmd[0], STDERR_FILENO);
+		print(tokenized_command[0], STDERR_FILENO);
 		print(": not found\n", STDERR_FILENO);
 		status = 127;
 	}
 }
 
 /**
- * pathc - checks if a command is found in the PATH
+ * check_path - checks if a command is found in the PATH
  * @command: command to be used
  *
  * Return: path where the command is found in, NULL if not found
  */
 char *pathc(char *command)
 {
-	char **arrp = NULL;
-	char *t1, *t2, *cpyp;
-	char *pth = _getenv("PATH");
-	int a = 0;
+	char **path_array = NULL;
+	char *temp, *temp2, *path_cpy;
+	char *path = _getenv("PATH");
+	int i;
 
-	if (pth == NULL || _strlen(pth) == 0)
+	if (path == NULL || _strlen(path) == 0)
 		return (NULL);
-	cpyp = malloc(sizeof(*cpyp) * (_strlen(pth) + 1));
-	_strcpy(pth, cpyp);
-	arrp = tkn(cpyp, ":");
-	for (; arrp[a] != NULL; a++)
+	path_cpy = malloc(sizeof(*path_cpy) * (_strlen(path) + 1));
+	_strcpy(path, path_cpy);
+	path_array = tkn(path_cpy, ":");
+	for (i = 0; path_array[i] != NULL; i++)
 	{
-		t2 = _strcat(arrp[a], "/");
-		t1 = _strcat(t2, command);
-		if (access(t1, F_OK) == 0)
+		temp2 = _strcat(path_array[i], "/");
+		temp = _strcat(temp2, command);
+		if (access(temp, F_OK) == 0)
 		{
-			free(t2);
-			free(arrp);
-			free(cpyp);
-			return (t1);
+			free(temp2);
+			free(path_array);
+			free(path_cpy);
+			return (temp);
 		}
-		free(t1);
-		free(t2);
+		free(temp);
+		free(temp2);
 	}
-	free(cpyp);
-	free(arrp);
+	free(path_cpy);
+	free(path_array);
 	return (NULL);
 }
 
@@ -123,15 +123,15 @@ char *pathc(char *command)
  */
 void (*get_func(char *command))(char **)
 {
-	int a = 0;
+	int i;
 	function_map mapping[] = {
 		{"env", env}, {"exit", quit}
 	};
 
-	for (; a < 2; a++)
+	for (i = 0; i < 2; i++)
 	{
-		if (_strcmp(command, mapping[a].command_name) == 0)
-			return (mapping[a].func);
+		if (_strcmp(command, mapping[i].command_name) == 0)
+			return (mapping[i].func);
 	}
 	return (NULL);
 }
@@ -144,20 +144,20 @@ void (*get_func(char *command))(char **)
  */
 char *_getenv(char *name)
 {
-	char **envme;
-	char *pptr;
-	char *ncpy;
+	char **my_environ;
+	char *pair_ptr;
+	char *name_cpy;
 
-	for (envme = environ; *envme != NULL; envme++)
+	for (my_environ = environ; *my_environ != NULL; my_environ++)
 	{
-		for (pptr = *envme, ncpy = name;
-		     *pptr == *ncpy; pptr++, ncpy++)
+		for (pair_ptr = *my_environ, name_cpy = name;
+		     *pair_ptr == *name_cpy; pair_ptr++, name_cpy++)
 		{
-			if (*pptr == '=')
+			if (*pair_ptr == '=')
 				break;
 		}
-		if ((*pptr == '=') && (*ncpy == '\0'))
-			return (pptr + 1);
+		if ((*pair_ptr == '=') && (*name_cpy == '\0'))
+			return (pair_ptr + 1);
 	}
 	return (NULL);
 }

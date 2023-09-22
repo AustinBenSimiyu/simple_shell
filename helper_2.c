@@ -117,7 +117,7 @@ void controlc(int signum)
 }
 
 /**
- * deletec - removes/ignores everything after a '#' char
+ * remove_comment - removes/ignores everything after a '#' char
  * @input: input to be used
  *
  * Return: void

@@ -7,8 +7,8 @@
 
 /**
  * main - the main shell code
- * @ac: number of arguments passed
- * @av: program arguments to be parsed
+ * @argc: number of arguments passed
+ * @argv: program arguments to be parsed
  *
  * applies the functions in utils and helpers
  * implements EOF
@@ -16,14 +16,14 @@
  * Return: 0 on success
  */
 
-int main(int ac __attribute__((unused)), char **av)
+int main(int argc __attribute__((unused)), char **argv)
 {
 	char **current_command = NULL;
 	int i, type_command = 0;
 	size_t n = 0;
 
 	signal(SIGINT, controlc);
-	shell_name = av[0];
+	shell_name = argv[0];
 	while (1)
 	{
 		non_interactive();

@@ -57,10 +57,11 @@ void deletel(char *str)
 {
 	int a = 0;
 
-	for (; str[a] != '\0'; a++)
+	while (str[a] != '\0')
 	{
 		if (str[a] == '\n')
 			break;
+		a++;
 	}
 	str[a] = '\0';
 }
@@ -77,9 +78,10 @@ void _strcpy(char *src, char *dest)
 {
 	int i = 0;
 
-	for (; src[i] != '\0'; i++)
+	while (src[i] != '\0')
 	{
 		dest[i] = src[i];
+		i++;
 	}
 	dest[i] = '\0';
 }
