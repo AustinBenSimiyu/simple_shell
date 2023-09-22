@@ -148,7 +148,8 @@ char *_getenv(char *name)
 	char *pptr;
 	char *ncpy;
 
-	for (envme = environ; *envme != NULL; envme++)
+	envme = environ; 
+	while (*envme != NULL)
 	{
 		for (pptr = *envme, ncpy = name;
 		     *pptr == *ncpy; pptr++, ncpy++)
@@ -158,6 +159,7 @@ char *_getenv(char *name)
 		}
 		if ((*pptr == '=') && (*ncpy == '\0'))
 			return (pptr + 1);
+		envme++;
 	}
 	return (NULL);
 }
