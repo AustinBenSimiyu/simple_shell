@@ -9,11 +9,9 @@
  * main - the main shell code
  * @argc: number of arguments passed
  * @argv: program arguments to be parsed
- *
+ * Description
  * applies the functions in utils and helpers
- * implements EOF
- * Prints error on Failure
- * Return: 0 on success
+ * Return: 0 
  */
 
 int main(int argc __attribute__((unused)), char **argv)

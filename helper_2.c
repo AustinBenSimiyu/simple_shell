@@ -2,43 +2,43 @@
 
 /**
  * _strtok_r - tokenizes a string
- * @string: string to be tokenized
- * @delim: delimiter to be used to tokenize the string
- * @save_ptr: pointer to be used to keep track of the next token
+ * @str: str to be tokenized
+ * @delim: delimiter to be used to tokenize the str
+ * @ptrss: pointer to be used to keep track of the next token
  *
  * Return: The next available token
  */
 
-char *_strtok_r(char *string, char *delim, char **save_ptr)
+char *_strtok_r(char *str, char *delim, char **ptrss)
 {
 	char *finish;
 
-	if (string == NULL)
-		string = *save_ptr;
+	if (str == NULL)
+		str = *ptrss;
 
-	if (*string == '\0')
+	if (*str == '\0')
 	{
-		*save_ptr = string;
+		*ptrss = str;
 		return (NULL);
 	}
 
-	string += _strspn(string, delim);
-	if (*string == '\0')
+	str += _strspn(str, delim);
+	if (*str == '\0')
 	{
-		*save_ptr = string;
+		*ptrss = str;
 		return (NULL);
 	}
 
-	finish = string + _strcspn(string, delim);
+	finish = str + _strcspn(str, delim);
 	if (*finish == '\0')
 	{
-		*save_ptr = finish;
-		return (string);
+		*ptrss = finish;
+		return (str);
 	}
 
 	*finish = '\0';
-	*save_ptr = finish + 1;
-	return (string);
+	*ptrss = finish + 1;
+	return (str);
 }
 
 /**

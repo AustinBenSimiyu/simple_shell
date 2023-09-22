@@ -2,48 +2,48 @@
 
 /**
  * tokenizer - tokenizes input and stores it into an array
- * @input_string: input to be parsed
+ * @enters: input to be parsed
  * @delim: delimiter to be used, needs to be one character string
  *
  * Return: array of tokens
  */
 
-char **tokenizer(char *input_string, char *delim)
+char **tokenizer(char *enters, char *delim)
 {
-	int num_delim = 0;
-	char **av = NULL;
-	char *token = NULL;
-	char *save_ptr = NULL;
+	int nums = 0;
+	char **avc = NULL;
+	char *tkn = NULL;
+	char *sptr = NULL;
 
-	token = _strtok_r(input_string, delim, &save_ptr);
+	tkn = _strtok_r(enters, delim, &sptr);
 
-	while (token != NULL)
+	while (tkn != NULL)
 	{
-		av = _realloc(av, sizeof(*av) * num_delim, sizeof(*av) * (num_delim + 1));
-		av[num_delim] = token;
-		token = _strtok_r(NULL, delim, &save_ptr);
-		num_delim++;
+		avc = _realloc(avc, sizeof(*avc) * nums, sizeof(*avc) * (nums + 1));
+		avc[nums] = tkn;
+		tkn = _strtok_r(NULL, delim, &sptr);
+		nums++;
 	}
 
-	av = _realloc(av, sizeof(*av) * num_delim, sizeof(*av) * (num_delim + 1));
-	av[num_delim] = NULL;
+	avc = _realloc(avc, sizeof(*avc) * nums, sizeof(*avc) * (nums + 1));
+	avc[nums] = NULL;
 
-	return (av);
+	return (avc);
 }
 
 /**
  * print - prints a string to stdout
- * @string: string to be printed
- * @stream: stream to print out to
+ * @str: str to be printed
+ * @strm: strm to print out to
  *
  * Return: void, return nothing
  */
-void print(char *string, int stream)
+void print(char *str, int strm)
 {
 	int i = 0;
 
-	for (; string[i] != '\0'; i++)
-		write(stream, &string[i], 1);
+	for (; str[i] != '\0'; i++)
+		write(strm, &str[i], 1);
 }
 
 /**
