@@ -123,15 +123,15 @@ char *pathc(char *command)
  */
 void (*get_func(char *command))(char **)
 {
-	int i;
+	int a = 0;
 	function_map mapping[] = {
 		{"env", env}, {"exit", quit}
 	};
 
-	for (i = 0; i < 2; i++)
+	for (; a < 2; a++)
 	{
-		if (_strcmp(command, mapping[i].command_name) == 0)
-			return (mapping[i].func);
+		if (_strcmp(command, mapping[a].command_name) == 0)
+			return (mapping[a].func);
 	}
 	return (NULL);
 }
