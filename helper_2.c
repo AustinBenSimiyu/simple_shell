@@ -8,7 +8,7 @@
  *
  * Return: The next available token
  */
- 
+
 char *_strtok_r(char *string, char *delim, char **save_ptr)
 {
 	char *finish;
@@ -47,7 +47,7 @@ char *_strtok_r(char *string, char *delim, char **save_ptr)
  *
  * Return: the converted int
  */
- 
+
 int _atoi(char *s)
 {
 	unsigned int n = 0;
@@ -73,7 +73,7 @@ int _atoi(char *s)
  *
  * Return: pointer to the address of the new memory block
  */
- 
+
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	void *temp_block;
@@ -125,7 +125,7 @@ void ctrl_c_handler(int signum)
  *
  * Return: void
  */
- 
+
 void remove_comment(char *input)
 {
 	int i = 0;
