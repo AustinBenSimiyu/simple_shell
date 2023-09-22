@@ -17,7 +17,7 @@ void non_interactive(void)
 		while (getline(&line, &n, stdin) != -1)
 		{
 			remove_newline(line);
-			remove_comment(line);
+			deletec(line);
 			commands = tokenizer(line, ";");
 			for (i = 0; commands[i] != NULL; i++)
 			{

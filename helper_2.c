@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * _strtok_r - tokenizes a string
+ * _strtok - tokenizes a string
  * @string: string to be tokenized
  * @delim: delimiter to be used to tokenize the string
  * @save_ptr: pointer to be used to keep track of the next token
@@ -9,7 +9,7 @@
  * Return: The next available token
  */
 
-char *_strtok_r(char *string, char *delim, char **save_ptr)
+char *_strtok(char *string, char *delim, char **save_ptr)
 {
 	char *finish;
 
@@ -108,12 +108,12 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * ctrl_c_handler - handles the signal raised by CTRL-C
+ * controlc - handles the signal raised by CTRL-C
  * @signum: signal number
  *
  * Return: void
  */
-void ctrl_c_handler(int signum)
+void controlc(int signum)
 {
 	if (signum == SIGINT)
 		print("\n($) ", STDIN_FILENO);
@@ -126,7 +126,7 @@ void ctrl_c_handler(int signum)
  * Return: void
  */
 
-void remove_comment(char *input)
+void deletec(char *input)
 {
 	int i = 0;
 
