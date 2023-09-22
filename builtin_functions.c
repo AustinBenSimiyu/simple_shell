@@ -9,9 +9,9 @@
 
 void env(char **tknc __attribute__((unused)))
 {
-	int i;
+	int i = 0;
 
-	for (i = 0; environ[i] != NULL; i++)
+	for (; environ[i] != NULL; i++)
 	{
 		print(environ[i], STDOUT_FILENO);
 		print("\n", STDOUT_FILENO);
@@ -27,18 +27,18 @@ void env(char **tknc __attribute__((unused)))
 
 void quit(char **tknc)
 {
-	int num_token = 0, arg;
+	int ntkn = 0, arg;
 
-	for (; tknc[num_token] != NULL; num_token++)
+	for (; tknc[ntkn] != NULL; ntkn++)
 		;
-	if (num_token == 1)
+	if (ntkn == 1)
 	{
 		free(tknc);
 		free(line);
 		free(commands);
 		exit(status);
 	}
-	else if (num_token == 2)
+	else if (ntkn == 2)
 	{
 		arg = _atoi(tknc[1]);
 		if (arg == -1)

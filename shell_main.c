@@ -35,11 +35,11 @@ int main(int argc __attribute__((unused)), char **argv)
 		}
 			remove_newline(line);
 			deletec(line);
-			commands = tokenizer(line, ";");
+			commands = tknz(line, ";");
 
 		for (i = 0; commands[i] != NULL; i++)
 		{
-			current_command = tokenizer(commands[i], " ");
+			current_command = tknz(commands[i], " ");
 			if (current_command[0] == NULL)
 			{
 				free(current_command);

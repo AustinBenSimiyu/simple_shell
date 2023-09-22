@@ -42,7 +42,7 @@ extern int status;
 
 /*helpers*/
 void print(char *, int);
-char **tokenizer(char *, char *);
+char **tknz(char *, char *);
 void remove_newline(char *);
 int _strlen(char *);
 void _strcpy(char *, char *);
