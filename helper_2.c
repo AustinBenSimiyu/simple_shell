@@ -106,33 +106,33 @@ void *_realloc(void *ptr, unsigned int os, unsigned int ns)
 
 /**
  * controlc - handles the signal raised by CTRL-C
- * @signum: signal number
+ * @numsig: signal number
  *
  * Return: void
  */
-void controlc(int signum)
+void controlc(int numsig)
 {
-	if (signum == SIGINT)
+	if (numsig == SIGINT)
 		print("\n($) ", STDIN_FILENO);
 }
 
 /**
  * deletec - removes/ignores everything after a '#' char
- * @input: input to be used
+ * @inns: inns to be used
  *
  * Return: void
  */
-void deletec(char *input)
+void deletec(char *inns)
 {
 	int a = 0;
 
-	if (input[a] == '#')
-		input[a] = '\0';
-	while (input[a] != '\0')
+	if (inns[a] == '#')
+		inns[a] = '\0';
+	while (inns[a] != '\0')
 	{
-		if (input[a] == '#' && input[a - 1] == ' ')
+		if (inns[a] == '#' && inns[a - 1] == ' ')
 			break;
 		a++;
 	}
-	input[a] = '\0';
+	inns[a] = '\0';
 }

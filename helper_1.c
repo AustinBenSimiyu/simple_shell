@@ -86,22 +86,22 @@ int _strcspn(char *str1, char *str2)
 
 /**
  * _strchr - locates a char in a string
- * @s: string to be searched
- * @c: char to be checked
+ * @str: string to be searched
+ * @ch: char to be checked
  *
- * Return: pointer to the first occurence of c in s
+ * Return: pointer to the first occurence of ch in str
  */
 
-char *_strchr(char *s, char c)
+char *_strchr(char *str, char ch)
 {
 	int a = 0;
 
-	while (s[a] != c && s[a] != '\0')
+	while (str[a] != ch && str[a] != '\0')
 	{
 		a++;
 	}
-	if (s[a] == c)
-		return (s + a);
+	if (str[a] == ch)
+		return (str + a);
 	else
 		return (NULL);
 }

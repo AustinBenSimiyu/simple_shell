@@ -42,8 +42,11 @@ void print(char *str, int strm)
 {
 	int a = 0;
 
-	for (; str[a] != '\0'; a++)
+	while (str[a] != '\0')
+	{
 		write(strm, &str[a], 1);
+		a++;
+	}
 }
 
 /**
@@ -78,10 +81,9 @@ void _strcpy(char *src, char *dest)
 {
 	int i = 0;
 
-	while (src[i] != '\0')
+	for (; src[i] != '\0'; i++)
 	{
 		dest[i] = src[i];
-		i++;
 	}
 	dest[i] = '\0';
 }
@@ -99,7 +101,9 @@ int _strlen(char *str)
 
 	if (str == NULL)
 		return (l);
-	for (; str[l] != '\0'; l++)
-		;
+	while (str[l] != '\0')
+	{
+		l++;
+	}
 	return (l);
 }
