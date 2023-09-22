@@ -79,7 +79,7 @@ void execcmd(char **tokenized_command, int command_type)
 }
 
 /**
- * check_path - checks if a command is found in the PATH
+ * pathc - checks if a command is found in the PATH
  * @command: command to be used
  *
  * Return: path where the command is found in, NULL if not found
