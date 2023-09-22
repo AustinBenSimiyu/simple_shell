@@ -21,6 +21,7 @@ int main(int ac __attribute__((unused)), char **av)
 
 	signal(SIGINT, controlc);
 	shell_name = av[0];
+	
 	while (1)
 	{
 		non_interactive();

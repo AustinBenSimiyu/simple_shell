@@ -4,39 +4,40 @@
  * _strtok - tokenizes a string
  * @str: string to be tokenized
  * @delim: delimiter to be used to tokenize the string
- * @ptr_s: pointer to be used to keep track of the next token
+ * @ptrs: pointer to be used to keep track of the next token
  *
  * Return: The next available token
  */
-char *_strtok(char *str, char *delim, char **ptr_s)
+char *_strtok(char *str, char *delim, char **ptrs)
 {
 	char *ends;
 
 	if (str == NULL)
-		str = *ptr_s;
+		str = *ptrs;
 
 	if (*str == '\0')
 	{
-		*ptr_s = str;
+		*ptrs = str;
 		return (NULL);
 	}
 
 	str += _strspn(str, delim);
 	if (*str == '\0')
 	{
-		*ptr_s = str;
+		*ptrs = str;
 		return (NULL);
 	}
 
 	ends = str + _strcspn(str, delim);
 	if (*ends == '\0')
 	{
-		*ptr_s = ends;
+		*ptrs = ends;
 		return (str);
 	}
 
 	*ends = '\0';
-	*ptr_s = ends + 1;
+	*ptrs = ends + 1;
+
 	return (str);
 }
 
@@ -60,6 +61,7 @@ int _atoi(char *str)
 		else if (n > 0)
 			break;
 	} while (*str++);
+
 	return (n);
 }
 

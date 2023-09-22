@@ -43,7 +43,9 @@ void print(char *str, int strm)
 	int a = 0;
 
 	for (; str[a] != '\0'; a++)
+	{
 		write(strm, &str[a], 1);
+	}
 }
 
 /**
@@ -63,6 +65,7 @@ void deletel(char *str)
 			break;
 		a++;
 	}
+
 	str[a] = '\0';
 }
 
@@ -83,6 +86,7 @@ void _strcpy(char *src, char *dest)
 		dest[i] = src[i];
 		i++;
 	}
+
 	dest[i] = '\0';
 }
 
@@ -98,7 +102,10 @@ int _strlen(char *str)
 	int l = 0;
 
 	if (str == NULL)
+	{
 		return (l);
+	}
+	
 	for (; str[l] != '\0'; l++)
 		;
 	return (l);

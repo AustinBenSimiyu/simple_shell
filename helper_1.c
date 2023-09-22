@@ -22,23 +22,25 @@ int _strcmp(char *one, char *two)
 
 /**
  * _strcat - concatenates two strings
- * @destination: string to be concatenated to
- * @source:  string to concatenate
+ * @dest: string to be concatenated to
+ * @src:  string to concatenate
  *
  * Return: address of the new string
  */
 
-char *_strcat(char *destination, char *source)
+char *_strcat(char *dest, char *src)
 {
-	char *new_string =  NULL;
-	int len_dest = _strlen(destination);
-	int len_source = _strlen(source);
+	char *sn =  NULL;
+	int ld = _strlen(dest);
+	int ls = _strlen(src);
 
-	new_string = malloc(sizeof(*new_string) * (len_dest + len_source + 1));
-	_strcpy(destination, new_string);
-	_strcpy(source, new_string + len_dest);
-	new_string[len_dest + len_source] = '\0';
-	return (new_string);
+	sn = malloc(sizeof(*sn) * (ld + ls + 1));
+
+	_strcpy(dest, sn);
+	_strcpy(src, sn + ld);
+	sn[ld + ls] = '\0';
+
+	return (sn);
 }
 
 /**
@@ -61,6 +63,7 @@ int _strspn(char *str1, char *str2)
 		match++;
 		i++;
 	}
+
 	return (match);
 }
 
@@ -74,14 +77,15 @@ int _strspn(char *str1, char *str2)
 
 int _strcspn(char *str1, char *str2)
 {
-	int len = 0, i;
+	int len = 0, i = 0;
 
-	for (i = 0; str1[i] != '\0'; i++)
+	for (; str1[i] != '\0'; i++)
 	{
 		if (_strchr(str2, str1[i]) != NULL)
 			break;
 		len++;
 	}
+
 	return (len);
 }
 
@@ -100,7 +104,11 @@ char *_strchr(char *str, char cc)
 	for (; str[i] != cc && str[i] != '\0'; i++)
 		;
 	if (str[i] == cc)
+	{
 		return (str + i);
+	}
 	else
+	{
 		return (NULL);
+	}
 }
