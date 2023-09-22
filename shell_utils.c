@@ -2,31 +2,31 @@
 
 /**
  * checkcmd - determines the type of the command
- * @command: command to be parsed
- * Return: constant representing the type of the command
+ * @cmd: cmd to be parsed
+ * Return: constant representing the type of the cmd
  * Description -
  * EXTERNAL_COMMAND (1) represents commands like /bin/ls
  * INTERNAL_COMMAND (2) represents commands like exit, env
  * PATH_COMMAND (3) represents commands found in the PATH like ls
  * INVALID_COMMAND (-1) represents invalid commands
  */
-int checkcmd(char *command)
+int checkcmd(char *cmd)
 {
-	int i;
+	int a = 0;
 	char *internal_command[] = {"env", "exit", NULL};
 	char *path = NULL;
 
-	for (i = 0; command[i] != '\0'; i++)
+	for (a = 0; cmd[a] != '\0'; a++)
 	{
-		if (command[i] == '/')
+		if (cmd[a] == '/')
 			return (EXTERNAL_COMMAND);
 	}
-	for (i = 0; internal_command[i] != NULL; i++)
+	for (; internal_command[a] != NULL; a++)
 	{
-		if (_strcmp(command, internal_command[i]) == 0)
+		if (_strcmp(cmd, internal_command[a]) == 0)
 			return (INTERNAL_COMMAND);
 	}
-	path = pathc(command);
+	path = pathc(cmd);
 	if (path != NULL)
 	{
 		free(path);
@@ -38,41 +38,41 @@ int checkcmd(char *command)
 
 /**
  * execcmd - executes a command based on it's type
- * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
- * @command_type: type of the command
+ * @tkncmd: tokenized form of the command (ls -l == {ls, -l, NULL})
+ * @cmdtp: type of the command
  *
  * Return: void
  */
-void execcmd(char **tokenized_command, int command_type)
+void execcmd(char **tkncmd, int cmdtp)
 {
 	void (*func)(char **command);
 
-	if (command_type == EXTERNAL_COMMAND)
+	if (cmdtp == EXTERNAL_COMMAND)
 	{
-		if (execve(tokenized_command[0], tokenized_command, NULL) == -1)
+		if (execve(tkncmd[0], tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (command_type == PATH_COMMAND)
+	if (cmdtp == PATH_COMMAND)
 	{
-		if (execve(pathc(tokenized_command[0]), tokenized_command, NULL) == -1)
+		if (execve(pathc(tkncmd[0]), tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (command_type == INTERNAL_COMMAND)
+	if (cmdtp == INTERNAL_COMMAND)
 	{
-		func = get_func(tokenized_command[0]);
-		func(tokenized_command);
+		func = get_func(tkncmd[0]);
+		func(tkncmd);
 	}
-	if (command_type == INVALID_COMMAND)
+	if (cmdtp == INVALID_COMMAND)
 	{
 		print(shell_name, STDERR_FILENO);
 		print(": 1: ", STDERR_FILENO);
-		print(tokenized_command[0], STDERR_FILENO);
+		print(tkncmd[0], STDERR_FILENO);
 		print(": not found\n", STDERR_FILENO);
 		status = 127;
 	}
@@ -80,11 +80,11 @@ void execcmd(char **tokenized_command, int command_type)
 
 /**
  * check_path - checks if a command is found in the PATH
- * @command: command to be used
+ * @cmd: cmd to be used
  *
- * Return: path where the command is found in, NULL if not found
+ * Return: path where the cmd is found in, NULL if not found
  */
-char *pathc(char *command)
+char *pathc(char *cmd)
 {
 	char **arrap = NULL;
 	char *tmp1, *tmp2, *pcpy;
@@ -99,7 +99,7 @@ char *pathc(char *command)
 	for (a = 0; arrap[a] != NULL; a++)
 	{
 		tmp2 = _strcat(arrap[a], "/");
-		tmp1 = _strcat(tmp2, command);
+		tmp1 = _strcat(tmp2, cmd);
 		if (access(tmp1, F_OK) == 0)
 		{
 			free(tmp2);
@@ -117,11 +117,11 @@ char *pathc(char *command)
 
 /**
  * get_func - retrieves a function based on the command given and a mapping
- * @command: string to check against the mapping
+ * @cmd: string to check against the mapping
  *
  * Return: pointer to the proper function, or null on fail
  */
-void (*get_func(char *command))(char **)
+void (*get_func(char *cmd))(char **)
 {
 	int a = 0;
 	function_map mapping[] = {
@@ -130,7 +130,7 @@ void (*get_func(char *command))(char **)
 
 	for (; a < 2; a++)
 	{
-		if (_strcmp(command, mapping[a].command_name) == 0)
+		if (_strcmp(cmd, mapping[a].command_name) == 0)
 			return (mapping[a].func);
 	}
 	return (NULL);
