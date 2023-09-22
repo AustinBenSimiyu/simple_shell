@@ -79,7 +79,7 @@ void execcmd(char **tkncmd, int cmdtp)
 }
 
 /**
- * check_path - checks if a command is found in the PATH
+ * pathc - checks if a command is found in the PATH
  * @cmd: cmd to be used
  *
  * Return: path where the cmd is found in, NULL if not found
@@ -148,7 +148,7 @@ char *_getenv(char *name)
 	char *pptr;
 	char *ncpy;
 
-	envme = environ; 
+	envme = environ;
 	while (*envme != NULL)
 	{
 		for (pptr = *envme, ncpy = name;
