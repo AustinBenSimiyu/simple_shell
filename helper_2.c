@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * _strtok_r - tokenizes a string
+ * _strtok - tokenizes a string
  * @string: string to be tokenized
  * @delim: delimiter to be used to tokenize the string
  * @save_ptr: pointer to be used to keep track of the next token
@@ -105,7 +105,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * ctrl_c_handler - handles the signal raised by CTRL-C
+ * controlc - handles the signal raised by CTRL-C
  * @signum: signal number
  *
  * Return: void
