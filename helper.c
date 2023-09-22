@@ -39,11 +39,11 @@ char **tknz(char *str, char *delim)
  */
 void print(char *str, int strm)
 {
-	int a = 0;
+	int i = 0;
 
-	for (; str[a] != '\0'; a++)
+	for (; str[i] != '\0'; i++)
 	{
-		write(strm, &str[a], 1);
+		write(strm, &str[i], 1);
 	}
 }
 
@@ -97,10 +97,7 @@ int _strlen(char *str)
 
 	if (str == NULL)
 		return (ls);
-	while (str[ls] != '\0')
-	{
-		ls++;
-	}
-
+	for (; str[ls] != '\0'; ls++)
+			;
 	return (ls);
 }

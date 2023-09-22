@@ -19,7 +19,7 @@ void non_interactive(void)
 			deletel(line);
 			deletec(line);
 			commands = tknz(line, ";");
-			for (a = 0; commands[a] != NULL; a++)
+			for (; commands[a] != NULL; a++)
 			{
 				ccmd = tknz(commands[a], " ");
 				if (ccmd[0] == NULL)

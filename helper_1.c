@@ -79,12 +79,11 @@ int _strcspn(char *s1, char *s2)
 {
 	int l = 0, a = 0;
 
-	while (s1[a] != '\0')
+	for (; s1[a] != '\0'; a++)
 	{
 		if (_strchr(s2, s1[a]) != NULL)
 			break;
 		l++;
-		a++;
 	}
 	return (l);
 }
@@ -101,10 +100,8 @@ char *_strchr(char *ss, char ccs)
 {
 	int a = 0;
 
-	while (ss[a] != ccs && ss[a] != '\0')
-	{
-		a++;
-	}
+	for (; ss[a] != ccs && ss[a] != '\0'; a++)
+			;
 	if (ss[a] == ccs)
 		return (ss + a);
 	else

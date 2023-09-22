@@ -136,10 +136,11 @@ void deletec(char *input)
 	if (input[a] == '#')
 		input[a] = '\0';
 
-	for (; input[a] != '\0'; a++)
+	while (input[a] != '\0')
 	{
 		if (input[a] == '#' && input[a - 1] == ' ')
 			break;
+		a++;
 	}
 	input[a] = '\0';
 }
