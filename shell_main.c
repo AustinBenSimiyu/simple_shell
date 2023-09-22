@@ -9,11 +9,7 @@
  * main - the main shell code
  * @ac: number of arguments passed
  * @av: program arguments to be parsed
- *
- * applies the functions in utils and helpers
- * implements EOF
- * Prints error on Failure
- * Return: 0 on success
+ * Return: 0
  */
 
 int main(int ac __attribute__((unused)), char **av)
