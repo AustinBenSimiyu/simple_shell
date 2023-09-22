@@ -45,7 +45,7 @@ int main(int argc __attribute__((unused)), char **argv)
 				free(ccmd);
 				break;
 			}
-			enterccmd = parse_command(ccmd[0]);
+			enterccmd = checkcmd(ccmd[0]);
 
 			initializer(ccmd, enterccmd);
 			free(ccmd);

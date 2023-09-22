@@ -62,7 +62,7 @@ void controlc(int);
 void deletec(char *);
 
 /*utils*/
-int parse_command(char *);
+int checkcmd(char *);
 void execute_command(char **, int);
 char *check_path(char *);
 void (*get_func(char *))(char **);

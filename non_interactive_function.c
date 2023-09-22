@@ -27,7 +27,7 @@ void non_interactive(void)
 					free(current_command);
 					break;
 				}
-				type_command = parse_command(current_command[0]);
+				type_command = checkcmd(current_command[0]);
 				initializer(current_command, type_command);
 				free(current_command);
 			}
