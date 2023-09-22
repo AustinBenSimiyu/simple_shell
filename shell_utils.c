@@ -38,41 +38,41 @@ int checkcmd(char *command)
 
 /**
  * execcmd - executes a command based on it's type
- * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
- * @command_type: type of the command
+ * @tkncmd: tokenized form of the command (ls -l == {ls, -l, NULL})
+ * @cmdtp: type of the command
  *
  * Return: void
  */
-void execcmd(char **tokenized_command, int command_type)
+void execcmd(char **tkncmd, int cmdtp)
 {
 	void (*func)(char **command);
 
-	if (command_type == EXTERNAL_COMMAND)
+	if (cmdtp == EXTERNAL_COMMAND)
 	{
-		if (execve(tokenized_command[0], tokenized_command, NULL) == -1)
+		if (execve(tkncmd[0], tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (command_type == PATH_COMMAND)
+	if (cmdtp == PATH_COMMAND)
 	{
-		if (execve(pathc(tokenized_command[0]), tokenized_command, NULL) == -1)
+		if (execve(pathc(tkncmd[0]), tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (command_type == INTERNAL_COMMAND)
+	if (cmdtp == INTERNAL_COMMAND)
 	{
-		func = get_func(tokenized_command[0]);
-		func(tokenized_command);
+		func = get_func(tkncmd[0]);
+		func(tkncmd);
 	}
-	if (command_type == INVALID_COMMAND)
+	if (cmdtp == INVALID_COMMAND)
 	{
 		print(shell_name, STDERR_FILENO);
 		print(": 1: ", STDERR_FILENO);
-		print(tokenized_command[0], STDERR_FILENO);
+		print(tkncmd[0], STDERR_FILENO);
 		print(": not found\n", STDERR_FILENO);
 		status = 127;
 	}
@@ -89,16 +89,16 @@ char *pathc(char *command)
 	char **arrap = NULL;
 	char *tmp1, *tmp2, *pcpy;
 	char *ph = _getenv("PATH");
-	int i;
+	int a;
 
 	if (ph == NULL || _strlen(ph) == 0)
 		return (NULL);
 	pcpy = malloc(sizeof(*pcpy) * (_strlen(ph) + 1));
 	_strcpy(ph, pcpy);
 	arrap = tkn(pcpy, ":");
-	for (i = 0; arrap[i] != NULL; i++)
+	for (a = 0; arrap[a] != NULL; a++)
 	{
-		tmp2 = _strcat(arrap[i], "/");
+		tmp2 = _strcat(arrap[a], "/");
 		tmp1 = _strcat(tmp2, command);
 		if (access(tmp1, F_OK) == 0)
 		{
