@@ -40,14 +40,14 @@ int checkcmd(char *command)
 }
 
 /**
- * execute_command - executes a command based on it's type
+ * execcmd - executes a command based on it's type
  * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
  * @command_type: type of the command
  *
  * Return: void
  */
 
-void execute_command(char **tokenized_command, int command_type)
+void execcmd(char **tokenized_command, int command_type)
 {
 	void (*func)(char **command);
 

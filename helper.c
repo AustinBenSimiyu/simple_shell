@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * tokenizer - tokenizes input and stores it into an array
+ * tknz - tokenizes input and stores it into an array
  * @input_string: input to be parsed
  * @delim: delimiter to be used, needs to be one character string
  *
@@ -47,7 +47,7 @@ void print(char *string, int stream)
 }
 
 /**
- * remove_newline - removes new line from a string
+ * deletel - removes new line from a string
  * @str: string to be used
  *
  * Return: void
