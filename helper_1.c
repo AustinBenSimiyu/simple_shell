@@ -2,44 +2,44 @@
 
 /**
  * _strcmp - compare two strings
- * @one: one string to be compared
- * @two: second string to be compared
+ * @first: first string to be compared
+ * @second: second string to be compared
  *
  * Return: difference of the two strings
  */
 
-int _strcmp(char *one, char *two)
+int _strcmp(char *first, char *second)
 {
 	int i = 0;
 
-	for (; one[i] != '\0'; i++)
+	while (first[i] != '\0')
 	{
-		if (one[i] != two[i])
+		if (first[i] != second[i])
 			break;
+		i++;
 	}
-	return (one[i] - two[i]);
+	return (first[i] - second[i]);
 }
 
 /**
  * _strcat - concatenates two strings
- * @dest: string to be concatenated to
- * @src:  string to concatenate
+ * @destination: string to be concatenated to
+ * @source:  string to concatenate
  *
  * Return: address of the new string
  */
 
-char *_strcat(char *dest, char *src)
+char *_strcat(char *destination, char *source)
 {
-	char *sn =  NULL;
-	int ld = _strlen(dest);
-	int ls = _strlen(src);
+	char *new_string =  NULL;
+	int len_dest = _strlen(destination);
+	int len_source = _strlen(source);
 
-	sn = malloc(sizeof(*sn) * (ld + ls + 1));
-
-	_strcpy(dest, sn);
-	_strcpy(src, sn + ld);
-	sn[ld + ls] = '\0';
-	return (sn);
+	new_string = malloc(sizeof(*new_string) * (len_dest + len_source + 1));
+	_strcpy(destination, new_string);
+	_strcpy(source, new_string + len_dest);
+	new_string[len_dest + len_source] = '\0';
+	return (new_string);
 }
 
 /**
@@ -75,9 +75,9 @@ int _strspn(char *str1, char *str2)
 
 int _strcspn(char *str1, char *str2)
 {
-	int len = 0, i = 0;
+	int len = 0, i;
 
-	for (; str1[i] != '\0'; i++)
+	for (i = 0; str1[i] != '\0'; i++)
 	{
 		if (_strchr(str2, str1[i]) != NULL)
 			break;
@@ -88,20 +88,20 @@ int _strcspn(char *str1, char *str2)
 
 /**
  * _strchr - locates a char in a string
- * @str: string to be searched
- * @cc: char to be checked
+ * @s: string to be searched
+ * @c: char to be checked
  *
  * Return: pointer to the first occurence of c in s
  */
 
-char *_strchr(char *str, char cc)
+char *_strchr(char *s, char c)
 {
 	int i = 0;
 
-	for (; str[i] != cc && str[i] != '\0'; i++)
+	for (; s[i] != c && s[i] != '\0'; i++)
 		;
-	if (str[i] == cc)
-		return (str + i);
+	if (s[i] == c)
+		return (s + i);
 	else
 		return (NULL);
 }

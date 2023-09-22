@@ -2,27 +2,27 @@
 
 /**
  * initializer - starts executing everything
- * @ccone: try to check current token
- * @enterc: parse token
+ * @current_command: try to check current token
+ * @type_command: parse token
  *
  * Return: void function
  */
 
-void initializer(char **ccone, int enterc)
+void initializer(char **current_command, int type_command)
 {
-	pid_t PIDD;
+	pid_t PID;
 
-	if (enterc == EXTERNAL_COMMAND || enterc == PATH_COMMAND)
+	if (type_command == EXTERNAL_COMMAND || type_command == PATH_COMMAND)
 	{
-		PIDD = fork();
-		if (PIDD == 0)
-			execute_command(ccone, enterc);
+		PID = fork();
+		if (PID == 0)
+			execute_command(current_command, type_command);
 		else
 		{
-			waitpid(PIDD, &status, 0);
+			waitpid(PID, &status, 0);
 			status >>= 8;
 		}
 	}
 	else
-		execute_command(ccone, enterc);
+		execute_command(current_command, type_command);
 }
