@@ -45,7 +45,7 @@ int main(int argc __attribute__((unused)), char **argv)
 				free(current_command);
 				break;
 			}
-			type_command = parse_command(current_command[0]);
+			type_command = checkcmd(current_command[0]);
 
 			/* initializer -   */
 			initializer(current_command, type_command);

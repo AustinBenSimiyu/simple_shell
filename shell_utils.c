@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * parse_command - determines the type of the command
+ * checkcmd - determines the type of the command
  * @command: command to be parsed
  *
  * Return: constant representing the type of the command
@@ -12,7 +12,7 @@
  * INVALID_COMMAND (-1) represents invalid commands
  */
 
-int parse_command(char *command)
+int checkcmd(char *command)
 {
 	int i;
 	char *internal_command[] = {"env", "exit", NULL};
@@ -40,14 +40,14 @@ int parse_command(char *command)
 }
 
 /**
- * execute_command - executes a command based on it's type
+ * execmd - executes a command based on it's type
  * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
  * @command_type: type of the command
  *
  * Return: void
  */
 
-void execute_command(char **tokenized_command, int command_type)
+void execmd(char **tokenized_command, int command_type)
 {
 	void (*func)(char **command);
 

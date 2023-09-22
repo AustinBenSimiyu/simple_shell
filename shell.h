@@ -55,15 +55,15 @@ int _strcspn(char *, char *);
 char *_strchr(char *, char);
 
 /*helpers3*/
-char *_strtok_r(char *, char *, char **);
+char *_strtok(char *, char *, char **);
 int _atoi(char *);
 void *_realloc(void *ptr, unsigned int os, unsigned int ns);
 void controlc(int);
 void deletec(char *);
 
 /*utils*/
-int parse_command(char *);
-void execute_command(char **, int);
+int checkcmd(char *);
+void execmd(char **, int);
 char *check_path(char *);
 void (*get_func(char *))(char **);
 char *_getenv(char *);

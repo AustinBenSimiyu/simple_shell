@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * _strtok_r - tokenizes a string
+ * _strtok - tokenizes a string
  * @str: string to be tokenized
  * @delim: delimiter to be used to tokenize the string
  * @sptr: pointer to be used to keep track of the next token
@@ -9,7 +9,7 @@
  * Return: The next available token
  */
 
-char *_strtok_r(char *str, char *delim, char **sptr)
+char *_strtok(char *str, char *delim, char **sptr)
 {
 	char *endss;
 
