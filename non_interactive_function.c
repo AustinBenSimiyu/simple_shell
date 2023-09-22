@@ -16,12 +16,12 @@ void non_interactive(void)
 	{
 		while (getline(&line, &n, stdin) != -1)
 		{
-			deletel(line);
+			remove_newline(line);
 			remove_comment(line);
-			commands = tkn(line, ";");
+			commands = tokenizer(line, ";");
 			for (i = 0; commands[i] != NULL; i++)
 			{
-				current_command = tkn(commands[i], " ");
+				current_command = tokenizer(commands[i], " ");
 				if (current_command[0] == NULL)
 				{
 					free(current_command);
