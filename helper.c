@@ -1,31 +1,32 @@
 #include "shell.h"
 
 /**
- * tknz - tokenizes input and stores it into an array
+ * tkn - tokenizes input and stores it into an array
  * @str: input to be parsed
  * @delim: delimiter to be used, needs to be one character string
  *
  * Return: array of tokens
  */
 
-char **tknz(char *str, char *delim)
+char **tkn(char *str, char *delim)
 {
-	int numz = 0;
+	int num = 0;
 	char **bc = NULL;
 	char *tkn = NULL;
-	char *ptrs = NULL;
+	char *ptr = NULL;
 
-	tkn = _strtok(str, delim, &ptrs);
+	tkn = _strtok(str, delim, &ptr);
+
 	while (tkn != NULL)
 	{
-		bc = _realloc(bc, sizeof(*bc) * numz, sizeof(*bc) * (numz + 1));
-		bc[numz] = tkn;
-		tkn = _strtok(NULL, delim, &ptrs);
-		numz++;
+		bc = _realloc(bc, sizeof(*bc) * num, sizeof(*bc) * (num + 1));
+		bc[num] = tkn;
+		tkn = _strtok(NULL, delim, &ptr);
+		num++;
 	}
 
-	bc = _realloc(bc, sizeof(*bc) * numz, sizeof(*bc) * (numz + 1));
-	bc[numz] = NULL;
+	bc = _realloc(bc, sizeof(*bc) * num, sizeof(*bc) * (num + 1));
+	bc[num] = NULL;
 
 	return (bc);
 }
@@ -39,12 +40,10 @@ char **tknz(char *str, char *delim)
  */
 void print(char *str, int strm)
 {
-	int i = 0;
+	int a = 0;
 
-	for (; str[i] != '\0'; i++)
-	{
-		write(strm, &str[i], 1);
-	}
+	for (; str[a] != '\0'; a++)
+		write(strm, &str[a], 1);
 }
 
 /**
@@ -58,30 +57,33 @@ void deletel(char *str)
 {
 	int a = 0;
 
-	for (; str[a] != '\0'; a++)
+	while (str[a] != '\0')
 	{
 		if (str[a] == '\n')
 			break;
+		a++;
 	}
-
 	str[a] = '\0';
 }
 
 /**
  * _strcpy - copies a string to another buffer
- * @src: src to copy from
- * @dst: dstination to copy to
+ * @src: source to copy from
+ * @dest: destination to copy to
  *
  * Return: void
  */
 
-void _strcpy(char *src, char *dst)
+void _strcpy(char *src, char *dest)
 {
-	int a = 0;
+	int i = 0;
 
-	for (; src[a] != '\0'; a++)
-		dst[a] = src[a];
-	dst[a] = '\0';
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
 }
 
 /**
@@ -93,11 +95,11 @@ void _strcpy(char *src, char *dst)
 
 int _strlen(char *str)
 {
-	int ls = 0;
+	int l = 0;
 
 	if (str == NULL)
-		return (ls);
-	for (; str[ls] != '\0'; ls++)
-			;
-	return (ls);
+		return (l);
+	for (; str[l] != '\0'; l++)
+		;
+	return (l);
 }

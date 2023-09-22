@@ -12,6 +12,7 @@
 #include <dirent.h>
 #include <signal.h>
 
+
 /*constants*/
 #define EXTERNAL_COMMAND 1
 #define INTERNAL_COMMAND 2
@@ -39,9 +40,9 @@ extern char **commands;
 extern char *shell_name;
 extern int status;
 
-/*helpers1*/
+/*helpers*/
 void print(char *, int);
-char **tknz(char *, char *);
+char **tkn(char *, char *);
 void deletel(char *);
 int _strlen(char *);
 void _strcpy(char *, char *);
@@ -56,13 +57,13 @@ char *_strchr(char *, char);
 /*helpers3*/
 char *_strtok(char *, char *, char **);
 int _atoi(char *);
-void *_realloc(void *ptr, unsigned int os, unsigned int ns);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void controlc(int);
-void deletec(char *);
+void remove_comment(char *);
 
 /*utils*/
-int checkcmd(char *);
-void execmd(char **, int);
+int parse_command(char *);
+void execute_command(char **, int);
 char *check_path(char *);
 void (*get_func(char *))(char **);
 char *_getenv(char *);
