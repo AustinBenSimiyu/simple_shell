@@ -40,7 +40,7 @@ extern char **commands;
 extern char *shell_name;
 extern int status;
 
-/*helpers*/
+/*helpers1*/
 void print(char *, int);
 char **tkn(char *, char *);
 void deletel(char *);
