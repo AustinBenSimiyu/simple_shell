@@ -2,23 +2,23 @@
 
 /**
  * _strcmp - compare two strings
- * @first: first string to be compared
- * @second: second string to be compared
+ * @one: one string to be compared
+ * @two: two string to be compared
  *
  * Return: difference of the two strings
  */
 
-int _strcmp(char *first, char *second)
+int _strcmp(char *one, char *two)
 {
 	int i = 0;
 
-	while (first[i] != '\0')
+	while (one[i] != '\0')
 	{
-		if (first[i] != second[i])
+		if (one[i] != two[i])
 			break;
 		i++;
 	}
-	return (first[i] - second[i]);
+	return (one[i] - two[i]);
 }
 
 /**
@@ -53,16 +53,16 @@ char *_strcat(char *destination, char *source)
 int _strspn(char *str1, char *str2)
 {
 	int i = 0;
-	int match = 0;
+	int find = 0;
 
 	while (str1[i] != '\0')
 	{
 		if (_strchr(str2, str1[i]) == NULL)
 			break;
-		match++;
+		find++;
 		i++;
 	}
-	return (match);
+	return (find);
 }
 
 /**
@@ -75,9 +75,9 @@ int _strspn(char *str1, char *str2)
 
 int _strcspn(char *str1, char *str2)
 {
-	int len = 0, i;
+	int len = 0, i = 0;
 
-	for (i = 0; str1[i] != '\0'; i++)
+	for (; str1[i] != '\0'; i++)
 	{
 		if (_strchr(str2, str1[i]) != NULL)
 			break;
