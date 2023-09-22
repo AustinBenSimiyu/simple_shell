@@ -27,20 +27,18 @@ void env(char **tkncmd __attribute__((unused)))
 
 void quit(char **tkncmd)
 {
-	int nums = 0, arg;
+	int ns = 0, arg;
 
-	while (tkncmd[nums] != NULL)
-	{
-		nums++;
-	}
-	if (nums == 1)
+	for (; tkncmd[ns] != NULL; ns++)
+		;
+	if (ns == 1)
 	{
 		free(tkncmd);
 		free(line);
 		free(commands);
 		exit(status);
 	}
-	else if (nums == 2)
+	else if (ns == 2)
 	{
 		arg = _atoi(tkncmd[1]);
 		if (arg == -1)
