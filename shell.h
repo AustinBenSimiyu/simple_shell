@@ -59,12 +59,12 @@ char *_strtok(char *, char *, char **);
 int _atoi(char *);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void controlc(int);
-void remove_comment(char *);
+void deletec(char *);
 
 /*utils*/
-int parse_command(char *);
-void execute_command(char **, int);
-char *check_path(char *);
+int checkcmd(char *);
+void execcmd(char **, int);
+char *pathc(char *);
 void (*get_func(char *))(char **);
 char *_getenv(char *);
 

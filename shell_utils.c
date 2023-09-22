@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * parse_command - determines the type of the command
+ * checkcmd - determines the type of the command
  * @command: command to be parsed
  * Return: constant representing the type of the command
  * Description -
@@ -10,7 +10,7 @@
  * PATH_COMMAND (3) represents commands found in the PATH like ls
  * INVALID_COMMAND (-1) represents invalid commands
  */
-int parse_command(char *command)
+int checkcmd(char *command)
 {
 	int i;
 	char *internal_command[] = {"env", "exit", NULL};
@@ -26,8 +26,7 @@ int parse_command(char *command)
 		if (_strcmp(command, internal_command[i]) == 0)
 			return (INTERNAL_COMMAND);
 	}
-	/* @check_path - checks if a command is found in the PATH */
-	path = check_path(command);
+	path = pathc(command);
 	if (path != NULL)
 	{
 		free(path);
@@ -38,13 +37,13 @@ int parse_command(char *command)
 }
 
 /**
- * execute_command - executes a command based on it's type
+ * execcmd - executes a command based on it's type
  * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
  * @command_type: type of the command
  *
  * Return: void
  */
-void execute_command(char **tokenized_command, int command_type)
+void execcmd(char **tokenized_command, int command_type)
 {
 	void (*func)(char **command);
 
@@ -58,7 +57,7 @@ void execute_command(char **tokenized_command, int command_type)
 	}
 	if (command_type == PATH_COMMAND)
 	{
-		if (execve(check_path(tokenized_command[0]), tokenized_command, NULL) == -1)
+		if (execve(pathc(tokenized_command[0]), tokenized_command, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
@@ -85,7 +84,7 @@ void execute_command(char **tokenized_command, int command_type)
  *
  * Return: path where the command is found in, NULL if not found
  */
-char *check_path(char *command)
+char *pathc(char *command)
 {
 	char **path_array = NULL;
 	char *temp, *temp2, *path_cpy;

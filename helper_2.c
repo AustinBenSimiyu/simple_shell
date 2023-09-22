@@ -122,7 +122,7 @@ void controlc(int signum)
  *
  * Return: void
  */
-void remove_comment(char *input)
+void deletec(char *input)
 {
 	int i = 0;
 

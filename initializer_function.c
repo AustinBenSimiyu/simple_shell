@@ -16,7 +16,7 @@ void initializer(char **current_command, int type_command)
 	{
 		PID = fork();
 		if (PID == 0)
-			execute_command(current_command, type_command);
+			execcmd(current_command, type_command);
 		else
 		{
 			waitpid(PID, &status, 0);
@@ -24,5 +24,5 @@ void initializer(char **current_command, int type_command)
 		}
 	}
 	else
-		execute_command(current_command, type_command);
+		execcmd(current_command, type_command);
 }
