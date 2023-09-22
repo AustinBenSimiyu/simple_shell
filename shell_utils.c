@@ -1,13 +1,6 @@
 #include "shell.h"
 
 /**
- * Auth: Adam
- *
- * Description:
- * the extended functions for main.c
- */
-
-/** 
  * parse_command - determines the type of the command
  * @command: command to be parsed
  *
@@ -53,7 +46,7 @@ int parse_command(char *command)
  *
  * Return: void
  */
- 
+
 void execute_command(char **tokenized_command, int command_type)
 {
 	void (*func)(char **command);
@@ -95,7 +88,7 @@ void execute_command(char **tokenized_command, int command_type)
  *
  * Return: path where the command is found in, NULL if not found
  */
- 
+
 char *check_path(char *command)
 {
 	char **path_array = NULL;
@@ -133,7 +126,7 @@ char *check_path(char *command)
  *
  * Return: pointer to the proper function, or null on fail
  */
- 
+
 void (*get_func(char *command))(char **)
 {
 	int i;
@@ -155,7 +148,7 @@ void (*get_func(char *command))(char **)
  *
  * Return: the value of the variable as a string
  */
- 
+
 char *_getenv(char *name)
 {
 	char **my_environ;
