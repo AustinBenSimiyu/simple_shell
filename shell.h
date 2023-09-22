@@ -12,7 +12,6 @@
 #include <dirent.h>
 #include <signal.h>
 
-
 /*constants*/
 #define EXTERNAL_COMMAND 1
 #define INTERNAL_COMMAND 2
@@ -40,7 +39,7 @@ extern char **commands;
 extern char *shell_name;
 extern int status;
 
-/*helpers*/
+/*helpers1*/
 void print(char *, int);
 char **tknz(char *, char *);
 void deletel(char *);

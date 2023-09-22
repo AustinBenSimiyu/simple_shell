@@ -43,27 +43,27 @@ char *_strtok(char *str, char *delim, char **sptr)
 
 /**
  * _atoi - changes a string to an integer
- * @s: the string to be changed
+ * @str: the string to be changed
  *
  * Return: the converted int
  */
 
-int _atoi(char *s)
+int _atoi(char *str)
 {
-	unsigned int n = 0;
+	unsigned int a = 0;
 
 	do {
-		if (*s == '-')
+		if (*str == '-')
 			return (-1);
-		else if ((*s < '0' || *s > '9') && *s != '\0')
+		else if ((*str < '0' || *str > '9') && *str != '\0')
 			return (-1);
-		else if (*s >= '0'  && *s <= '9')
-			n = (n * 10) + (*s - '0');
-		else if (n > 0)
+		else if (*str >= '0'  && *str <= '9')
+			a = (a * 10) + (*str - '0');
+		else if (a > 0)
 			break;
-	} while (*s++);
+	} while (*str++);
 
-	return (n);
+	return (a);
 }
 
 /**
@@ -103,7 +103,9 @@ void *_realloc(void *ptr, unsigned int os, unsigned int ns)
 			return (tmpbk);
 		}
 		else
+		{
 			return (NULL);
+		}
 
 	}
 }

@@ -2,48 +2,49 @@
 
 /**
  * tknz - tokenizes input and stores it into an array
- * @input_string: input to be parsed
+ * @str: input to be parsed
  * @delim: delimiter to be used, needs to be one character string
  *
  * Return: array of tokens
  */
 
-char **tknz(char *input_string, char *delim)
+char **tknz(char *str, char *delim)
 {
-	int num_delim = 0;
-	char **av = NULL;
-	char *token = NULL;
-	char *save_ptr = NULL;
+	int numz = 0;
+	char **bc = NULL;
+	char *tkn = NULL;
+	char *ptrs = NULL;
 
-	token = _strtok(input_string, delim, &save_ptr);
-
-	while (token != NULL)
+	tkn = _strtok(str, delim, &ptrs);
+	while (tkn != NULL)
 	{
-		av = _realloc(av, sizeof(*av) * num_delim, sizeof(*av) * (num_delim + 1));
-		av[num_delim] = token;
-		token = _strtok(NULL, delim, &save_ptr);
-		num_delim++;
+		bc = _realloc(bc, sizeof(*bc) * numz, sizeof(*bc) * (numz + 1));
+		bc[numz] = tkn;
+		tkn = _strtok(NULL, delim, &ptrs);
+		numz++;
 	}
 
-	av = _realloc(av, sizeof(*av) * num_delim, sizeof(*av) * (num_delim + 1));
-	av[num_delim] = NULL;
+	bc = _realloc(bc, sizeof(*bc) * numz, sizeof(*bc) * (numz + 1));
+	bc[numz] = NULL;
 
-	return (av);
+	return (bc);
 }
 
 /**
  * print - prints a string to stdout
- * @string: string to be printed
- * @stream: stream to print out to
+ * @str: string to be printed
+ * @strm: stream to print out to
  *
  * Return: void, return nothing
  */
-void print(char *string, int stream)
+void print(char *str, int strm)
 {
 	int i = 0;
 
-	for (; string[i] != '\0'; i++)
-		write(stream, &string[i], 1);
+	for (; str[i] != '\0'; i++)
+	{
+		write(strm, &str[i], 1);
+	}
 }
 
 /**
@@ -68,35 +69,35 @@ void deletel(char *str)
 
 /**
  * _strcpy - copies a string to another buffer
- * @source: source to copy from
- * @dest: destination to copy to
+ * @src: src to copy from
+ * @dst: dstination to copy to
  *
  * Return: void
  */
 
-void _strcpy(char *source, char *dest)
+void _strcpy(char *src, char *dst)
 {
 	int i = 0;
 
-	for (; source[i] != '\0'; i++)
-		dest[i] = source[i];
-	dest[i] = '\0';
+	for (; src[i] != '\0'; i++)
+		dst[i] = src[i];
+	dst[i] = '\0';
 }
 
 /**
  * _strlen - counts string length
- * @string: string to be counted
+ * @str: string to be counted
  *
  * Return: length of the string
  */
 
-int _strlen(char *string)
+int _strlen(char *str)
 {
 	int len = 0;
 
-	if (string == NULL)
+	if (str == NULL)
 		return (len);
-	for (; string[len] != '\0'; len++)
+	for (; str[len] != '\0'; len++)
 		;
 	return (len);
 }
