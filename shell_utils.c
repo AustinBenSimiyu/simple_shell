@@ -144,20 +144,20 @@ void (*get_func(char *command))(char **)
  */
 char *_getenv(char *name)
 {
-	char **my_environ;
-	char *pair_ptr;
-	char *name_cpy;
+	char **envme;
+	char *pptr;
+	char *ncpy;
 
-	for (my_environ = environ; *my_environ != NULL; my_environ++)
+	for (envme = environ; *envme != NULL; envme++)
 	{
-		for (pair_ptr = *my_environ, name_cpy = name;
-		     *pair_ptr == *name_cpy; pair_ptr++, name_cpy++)
+		for (pptr = *envme, ncpy = name;
+		     *pptr == *ncpy; pptr++, ncpy++)
 		{
-			if (*pair_ptr == '=')
+			if (*pptr == '=')
 				break;
 		}
-		if ((*pair_ptr == '=') && (*name_cpy == '\0'))
-			return (pair_ptr + 1);
+		if ((*pptr == '=') && (*ncpy == '\0'))
+			return (pptr + 1);
 	}
 	return (NULL);
 }
