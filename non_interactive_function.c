@@ -9,7 +9,7 @@
 void non_interactive(void)
 {
 	char **current_command = NULL;
-	int a = 0, type_command = 0;
+	int i, type_command = 0;
 	size_t n = 0;
 
 	if (!(isatty(STDIN_FILENO)))
@@ -19,9 +19,9 @@ void non_interactive(void)
 			deletel(line);
 			deletec(line);
 			commands = tkn(line, ";");
-			for (; commands[a] != NULL; a++)
+			for (i = 0; commands[i] != NULL; i++)
 			{
-				current_command = tkn(commands[a], " ");
+				current_command = tkn(commands[i], " ");
 				if (current_command[0] == NULL)
 				{
 					free(current_command);
