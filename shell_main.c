@@ -18,8 +18,8 @@
 
 int main(int argc __attribute__((unused)), char **argv)
 {
-	char **current_command = NULL;
-	int i, type_command = 0;
+	char **nowcmd = NULL;
+	int i = 0, entercmd = 0;
 	size_t n = 0;
 
 	signal(SIGINT, controlc);
@@ -37,19 +37,19 @@ int main(int argc __attribute__((unused)), char **argv)
 			deletec(line);
 			commands = tknz(line, ";");
 
-		for (i = 0; commands[i] != NULL; i++)
+		for (; commands[i] != NULL; i++)
 		{
-			current_command = tknz(commands[i], " ");
-			if (current_command[0] == NULL)
+			nowcmd = tknz(commands[i], " ");
+			if (nowcmd[0] == NULL)
 			{
-				free(current_command);
+				free(nowcmd);
 				break;
 			}
-			type_command = checkcmd(current_command[0]);
+			entercmd = checkcmd(nowcmd[0]);
 
 			/* initializer -   */
-			initializer(current_command, type_command);
-			free(current_command);
+			initializer(nowcmd, entercmd);
+			free(nowcmd);
 		}
 		free(commands);
 	}

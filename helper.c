@@ -39,11 +39,11 @@ char **tknz(char *str, char *delim)
  */
 void print(char *str, int strm)
 {
-	int i = 0;
+	int a = 0;
 
-	for (; str[i] != '\0'; i++)
+	for (; str[a] != '\0'; a++)
 	{
-		write(strm, &str[i], 1);
+		write(strm, &str[a], 1);
 	}
 }
 
@@ -56,15 +56,15 @@ void print(char *str, int strm)
 
 void deletel(char *str)
 {
-	int i = 0;
+	int a = 0;
 
-	while (str[i] != '\0')
+	for (; str[a] != '\0'; a++)
 	{
-		if (str[i] == '\n')
+		if (str[a] == '\n')
 			break;
-		i++;
 	}
-	str[i] = '\0';
+
+	str[a] = '\0';
 }
 
 /**
@@ -77,11 +77,11 @@ void deletel(char *str)
 
 void _strcpy(char *src, char *dst)
 {
-	int i = 0;
+	int a = 0;
 
-	for (; src[i] != '\0'; i++)
-		dst[i] = src[i];
-	dst[i] = '\0';
+	for (; src[a] != '\0'; a++)
+		dst[a] = src[a];
+	dst[a] = '\0';
 }
 
 /**
@@ -93,11 +93,14 @@ void _strcpy(char *src, char *dst)
 
 int _strlen(char *str)
 {
-	int len = 0;
+	int ls = 0;
 
 	if (str == NULL)
-		return (len);
-	for (; str[len] != '\0'; len++)
-		;
-	return (len);
+		return (ls);
+	while (str[ls] != '\0')
+	{
+		ls++;
+	}
+
+	return (ls);
 }

@@ -2,7 +2,7 @@
 
 /**
  * checkcmd - determines the type of the command
- * @command: command to be parsed
+ * @cmd: command to be parsed
  *
  * Return: constant representing the type of the command
  * Description -
@@ -12,24 +12,24 @@
  * INVALID_COMMAND (-1) represents invalid commands
  */
 
-int checkcmd(char *command)
+int checkcmd(char *cmd)
 {
-	int i;
+	int a = 0;
 	char *internal_command[] = {"env", "exit", NULL};
 	char *path = NULL;
 
-	for (i = 0; command[i] != '\0'; i++)
+	while (cmd[a] != '\0')
 	{
-		if (command[i] == '/')
+		if (cmd[a] == '/')
 			return (EXTERNAL_COMMAND);
+		a++;
 	}
-	for (i = 0; internal_command[i] != NULL; i++)
+	for (; internal_command[a] != NULL; a++)
 	{
-		if (_strcmp(command, internal_command[i]) == 0)
+		if (_strcmp(cmd, internal_command[a]) == 0)
 			return (INTERNAL_COMMAND);
 	}
-	/* @check_path - checks if a command is found in the PATH */
-	path = check_path(command);
+	path = check_path(cmd);
 	if (path != NULL)
 	{
 		free(path);
@@ -41,42 +41,42 @@ int checkcmd(char *command)
 
 /**
  * execmd - executes a command based on it's type
- * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
- * @command_type: type of the command
+ * @tkncmd: tokenized form of the command (ls -l == {ls, -l, NULL})
+ * @cmdtp: type of the command
  *
  * Return: void
  */
 
-void execmd(char **tokenized_command, int command_type)
+void execmd(char **tkncmd, int cmdtp)
 {
 	void (*func)(char **command);
 
-	if (command_type == EXTERNAL_COMMAND)
+	if (cmdtp == EXTERNAL_COMMAND)
 	{
-		if (execve(tokenized_command[0], tokenized_command, NULL) == -1)
+		if (execve(tkncmd[0], tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (command_type == PATH_COMMAND)
+	if (cmdtp == PATH_COMMAND)
 	{
-		if (execve(check_path(tokenized_command[0]), tokenized_command, NULL) == -1)
+		if (execve(check_path(tkncmd[0]), tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (command_type == INTERNAL_COMMAND)
+	if (cmdtp == INTERNAL_COMMAND)
 	{
-		func = get_func(tokenized_command[0]);
-		func(tokenized_command);
+		func = get_func(tkncmd[0]);
+		func(tkncmd);
 	}
-	if (command_type == INVALID_COMMAND)
+	if (cmdtp == INVALID_COMMAND)
 	{
 		print(shell_name, STDERR_FILENO);
 		print(": 1: ", STDERR_FILENO);
-		print(tokenized_command[0], STDERR_FILENO);
+		print(tkncmd[0], STDERR_FILENO);
 		print(": not found\n", STDERR_FILENO);
 		status = 127;
 	}
@@ -91,80 +91,81 @@ void execmd(char **tokenized_command, int command_type)
 
 char *check_path(char *command)
 {
-	char **path_array = NULL;
-	char *temp, *temp2, *path_cpy;
-	char *path = _getenv("PATH");
-	int i;
+	char **arrap = NULL;
+	char *tmp1, *tmp2, *cpyp;
+	char *pth = _getenv("PATH");
+	int i = 0;
 
-	if (path == NULL || _strlen(path) == 0)
+	if (pth == NULL || _strlen(pth) == 0)
 		return (NULL);
-	path_cpy = malloc(sizeof(*path_cpy) * (_strlen(path) + 1));
-	_strcpy(path, path_cpy);
-	path_array = tknz(path_cpy, ":");
-	for (i = 0; path_array[i] != NULL; i++)
+	cpyp = malloc(sizeof(*cpyp) * (_strlen(pth) + 1));
+	_strcpy(pth, cpyp);
+	arrap = tknz(cpyp, ":");
+	for (; arrap[i] != NULL; i++)
 	{
-		temp2 = _strcat(path_array[i], "/");
-		temp = _strcat(temp2, command);
-		if (access(temp, F_OK) == 0)
+		tmp2 = _strcat(arrap[i], "/");
+		tmp1 = _strcat(tmp2, command);
+		if (access(tmp1, F_OK) == 0)
 		{
-			free(temp2);
-			free(path_array);
-			free(path_cpy);
-			return (temp);
+			free(tmp2);
+			free(arrap);
+			free(cpyp);
+			return (tmp1);
 		}
-		free(temp);
-		free(temp2);
+		free(tmp1);
+		free(tmp2);
 	}
-	free(path_cpy);
-	free(path_array);
+	free(cpyp);
+	free(arrap);
 	return (NULL);
 }
 
 /**
  * get_func - retrieves a function based on the command given and a mapping
- * @command: string to check against the mapping
+ * @cmd: string to check against the mapping
  *
  * Return: pointer to the proper function, or null on fail
  */
 
-void (*get_func(char *command))(char **)
+void (*get_func(char *cmd))(char **)
 {
-	int i;
+	int a = 0;
 	function_map mapping[] = {
 		{"env", env}, {"exit", quit}
 	};
 
-	for (i = 0; i < 2; i++)
+	while (a < 2)
 	{
-		if (_strcmp(command, mapping[i].command_name) == 0)
-			return (mapping[i].func);
+		if (_strcmp(cmd, mapping[a].command_name) == 0)
+			return (mapping[a].func);
+		a++;
 	}
 	return (NULL);
 }
 
 /**
  * _getenv - gets the value of an environment variable
- * @name: name of the environment variable
+ * @namess: namess of the environment variable
  *
  * Return: the value of the variable as a string
  */
 
-char *_getenv(char *name)
+char *_getenv(char *namess)
 {
-	char **my_environ;
-	char *pair_ptr;
-	char *name_cpy;
+	char **envime;
+	char *pptr;
+	char *ncpy;
 
-	for (my_environ = environ; *my_environ != NULL; my_environ++)
+	for (envime = environ; *envime != NULL; envime++)
 	{
-		for (pair_ptr = *my_environ, name_cpy = name;
-		     *pair_ptr == *name_cpy; pair_ptr++, name_cpy++)
+		for (pptr = *envime, ncpy = namess;
+		     *pptr == *ncpy; pptr++, ncpy++)
 		{
-			if (*pair_ptr == '=')
+			if (*pptr == '=')
 				break;
 		}
-		if ((*pair_ptr == '=') && (*name_cpy == '\0'))
-			return (pair_ptr + 1);
+		if ((*pptr == '=') && (*ncpy == '\0'))
+			return (pptr + 1);
 	}
 	return (NULL);
 }
