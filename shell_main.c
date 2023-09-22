@@ -33,13 +33,13 @@ int main(int argc __attribute__((unused)), char **argv)
 			free(line);
 			exit(status);
 		}
-			remove_newline(line);
-			remove_comment(line);
-			commands = tokenizer(line, ";");
+			deletel(line);
+			deletec(line);
+			commands = tknz(line, ";");
 
 		for (i = 0; commands[i] != NULL; i++)
 		{
-			current_command = tokenizer(commands[i], " ");
+			current_command = tknz(commands[i], " ");
 			if (current_command[0] == NULL)
 			{
 				free(current_command);

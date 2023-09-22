@@ -42,8 +42,8 @@ extern int status;
 
 /*helpers*/
 void print(char *, int);
-char **tokenizer(char *, char *);
-void remove_newline(char *);
+char **tknz(char *, char *);
+void deletel(char *);
 int _strlen(char *);
 void _strcpy(char *, char *);
 
@@ -59,7 +59,7 @@ char *_strtok_r(char *, char *, char **);
 int _atoi(char *);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void ctrl_c_handler(int);
-void remove_comment(char *);
+void deletec(char *);
 
 /*utils*/
 int parse_command(char *);

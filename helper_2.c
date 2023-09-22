@@ -120,13 +120,13 @@ void ctrl_c_handler(int signum)
 }
 
 /**
- * remove_comment - removes/ignores everything after a '#' char
+ * deletec - removes/ignores everything after a '#' char
  * @input: input to be used
  *
  * Return: void
  */
 
-void remove_comment(char *input)
+void deletec(char *input)
 {
 	int i = 0;
 
