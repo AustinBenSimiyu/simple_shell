@@ -1,28 +1,33 @@
 #include "shell.h"
 
 /**
- * checkcmd - determines the type of the command
+ * parse_command - determines the type of the command
  * @command: command to be parsed
  * Return: constant representing the type of the command
+ * Description -
+ * EXTERNAL_COMMAND (1) represents commands like /bin/ls
+ * INTERNAL_COMMAND (2) represents commands like exit, env
+ * PATH_COMMAND (3) represents commands found in the PATH like ls
+ * INVALID_COMMAND (-1) represents invalid commands
  */
-int checkcmd(char *command)
+int parse_command(char *command)
 {
-	int a = 0;
+	int i;
 	char *internal_command[] = {"env", "exit", NULL};
 	char *path = NULL;
 
-	for (; command[a] != '\0'; a++)
+	for (i = 0; command[i] != '\0'; i++)
 	{
-		if (command[a] == '/')
+		if (command[i] == '/')
 			return (EXTERNAL_COMMAND);
 	}
-	for (; internal_command[a] != NULL; a++)
+	for (i = 0; internal_command[i] != NULL; i++)
 	{
-		if (_strcmp(command, internal_command[a]) == 0)
+		if (_strcmp(command, internal_command[i]) == 0)
 			return (INTERNAL_COMMAND);
 	}
 	/* @check_path - checks if a command is found in the PATH */
-	path = pathc(command);
+	path = check_path(command);
 	if (path != NULL)
 	{
 		free(path);
@@ -33,54 +38,54 @@ int checkcmd(char *command)
 }
 
 /**
- * execmd - executes a command based on it's type
- * @tkncmd: tokenized form of the command (ls -l == {ls, -l, NULL})
- * @cmdtp: type of the command
+ * execute_command - executes a command based on it's type
+ * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
+ * @command_type: type of the command
  *
  * Return: void
  */
-void execmd(char **tkncmd, int cmdtp)
+void execute_command(char **tokenized_command, int command_type)
 {
 	void (*func)(char **command);
 
-	if (cmdtp == EXTERNAL_COMMAND)
+	if (command_type == EXTERNAL_COMMAND)
 	{
-		if (execve(tkncmd[0], tkncmd, NULL) == -1)
+		if (execve(tokenized_command[0], tokenized_command, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (cmdtp == PATH_COMMAND)
+	if (command_type == PATH_COMMAND)
 	{
-		if (execve(pathc(tkncmd[0]), tkncmd, NULL) == -1)
+		if (execve(check_path(tokenized_command[0]), tokenized_command, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
 		}
 	}
-	if (cmdtp == INTERNAL_COMMAND)
+	if (command_type == INTERNAL_COMMAND)
 	{
-		func = get_func(tkncmd[0]);
-		func(tkncmd);
+		func = get_func(tokenized_command[0]);
+		func(tokenized_command);
 	}
-	if (cmdtp == INVALID_COMMAND)
+	if (command_type == INVALID_COMMAND)
 	{
 		print(shell_name, STDERR_FILENO);
 		print(": 1: ", STDERR_FILENO);
-		print(tkncmd[0], STDERR_FILENO);
+		print(tokenized_command[0], STDERR_FILENO);
 		print(": not found\n", STDERR_FILENO);
 		status = 127;
 	}
 }
 
 /**
- * pathc - checks if a command is found in the PATH
+ * check_path - checks if a command is found in the PATH
  * @command: command to be used
  *
  * Return: path where the command is found in, NULL if not found
  */
-char *pathc(char *command)
+char *check_path(char *command)
 {
 	char **path_array = NULL;
 	char *temp, *temp2, *path_cpy;
@@ -119,15 +124,15 @@ char *pathc(char *command)
  */
 void (*get_func(char *command))(char **)
 {
-	int a = 0;
+	int i;
 	function_map mapping[] = {
 		{"env", env}, {"exit", quit}
 	};
 
-	for (; a < 2; a++)
+	for (i = 0; i < 2; i++)
 	{
-		if (_strcmp(command, mapping[a].command_name) == 0)
-			return (mapping[a].func);
+		if (_strcmp(command, mapping[i].command_name) == 0)
+			return (mapping[i].func);
 	}
 	return (NULL);
 }
@@ -140,20 +145,20 @@ void (*get_func(char *command))(char **)
  */
 char *_getenv(char *name)
 {
-	char **envme;
-	char *pptr;
-	char *ncpr;
+	char **my_environ;
+	char *pair_ptr;
+	char *name_cpy;
 
-	for (envme = environ; *envme != NULL; envme++)
+	for (my_environ = environ; *my_environ != NULL; my_environ++)
 	{
-		for (pptr = *envme, ncpr = name;
-		     *pptr == *ncpr; pptr++, ncpr++)
+		for (pair_ptr = *my_environ, name_cpy = name;
+		     *pair_ptr == *name_cpy; pair_ptr++, name_cpy++)
 		{
-			if (*pptr == '=')
+			if (*pair_ptr == '=')
 				break;
 		}
-		if ((*pptr == '=') && (*ncpr == '\0'))
-			return (pptr + 1);
+		if ((*pair_ptr == '=') && (*name_cpy == '\0'))
+			return (pair_ptr + 1);
 	}
 	return (NULL);
 }

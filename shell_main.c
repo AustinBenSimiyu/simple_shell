@@ -7,19 +7,23 @@
 
 /**
  * main - the main shell code
- * @ac: number of arguments passed
- * @av: program arguments to be parsed
- * Return: 0
+ * @argc: number of arguments passed
+ * @argv: program arguments to be parsed
+ *
+ * applies the functions in utils and helpers
+ * implements EOF
+ * Prints error on Failure
+ * Return: 0 on success
  */
 
-int main(int ac __attribute__((unused)), char **av)
+int main(int argc __attribute__((unused)), char **argv)
 {
-	char **nowcmd = NULL;
-	int a = 0, entercmd = 0;
+	char **current_command = NULL;
+	int i, type_command = 0;
 	size_t n = 0;
 
 	signal(SIGINT, controlc);
-	shell_name = av[0];
+	shell_name = argv[0];
 	while (1)
 	{
 		non_interactive();
@@ -30,22 +34,22 @@ int main(int ac __attribute__((unused)), char **av)
 			exit(status);
 		}
 			deletel(line);
-			deletec(line);
+			remove_comment(line);
 			commands = tkn(line, ";");
 
-		for (; commands[a] != NULL; a++)
+		for (i = 0; commands[i] != NULL; i++)
 		{
-			nowcmd = tkn(commands[a], " ");
-			if (nowcmd[0] == NULL)
+			current_command = tkn(commands[i], " ");
+			if (current_command[0] == NULL)
 			{
-				free(nowcmd);
+				free(current_command);
 				break;
 			}
-			entercmd = checkcmd(nowcmd[0]);
+			type_command = parse_command(current_command[0]);
 
 			/* initializer -   */
-			initializer(nowcmd, entercmd);
-			free(nowcmd);
+			initializer(current_command, type_command);
+			free(current_command);
 		}
 		free(commands);
 	}

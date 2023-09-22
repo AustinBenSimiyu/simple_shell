@@ -8,8 +8,8 @@
 
 void non_interactive(void)
 {
-	char **nowcmd = NULL;
-	int a = 0, entercmd = 0;
+	char **current_command = NULL;
+	int i, type_command = 0;
 	size_t n = 0;
 
 	if (!(isatty(STDIN_FILENO)))
@@ -17,19 +17,19 @@ void non_interactive(void)
 		while (getline(&line, &n, stdin) != -1)
 		{
 			deletel(line);
-			deletec(line);
+			remove_comment(line);
 			commands = tkn(line, ";");
-			for (; commands[a] != NULL; a++)
+			for (i = 0; commands[i] != NULL; i++)
 			{
-				nowcmd = tkn(commands[a], " ");
-				if (nowcmd[0] == NULL)
+				current_command = tkn(commands[i], " ");
+				if (current_command[0] == NULL)
 				{
-					free(nowcmd);
+					free(current_command);
 					break;
 				}
-				entercmd = checkcmd(nowcmd[0]);
-				initializer(nowcmd, entercmd);
-				free(nowcmd);
+				type_command = parse_command(current_command[0]);
+				initializer(current_command, type_command);
+				free(current_command);
 			}
 			free(commands);
 		}

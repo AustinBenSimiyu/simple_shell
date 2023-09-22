@@ -2,69 +2,71 @@
 
 /**
  * _strcmp - compare two strings
- * @one: one string to be compared
- * @two: two string to be compared
+ * @first: first string to be compared
+ * @second: second string to be compared
  *
  * Return: difference of the two strings
  */
 
-int _strcmp(char *one, char *two)
+int _strcmp(char *first, char *second)
 {
-	int a = 0;
+	int i = 0;
 
-	for (; one[a] != '\0'; a++)
+	while (first[i] != '\0')
 	{
-		if (one[a] != two[a])
+		if (first[i] != second[i])
 			break;
+		i++;
 	}
-	return (one[a] - two[a]);
+	return (first[i] - second[i]);
 }
 
 /**
  * _strcat - concatenates two strings
- * @dst: string to be concatenated to
- * @src:  string to concatenate
+ * @destination: string to be concatenated to
+ * @source:  string to concatenate
  *
  * Return: address of the new string
  */
 
-char *_strcat(char *dst, char *src)
+char *_strcat(char *destination, char *source)
 {
-	char *ns =  NULL;
-	int ld = _strlen(dst);
-	int ls = _strlen(src);
+	char *new_string =  NULL;
+	int len_dest = _strlen(destination);
+	int len_source = _strlen(source);
 
-	ns = malloc(sizeof(*ns) * (ld + ls + 1));
-	_strcpy(dst, ns);
-	_strcpy(src, ns + ld);
-	ns[ld + ls] = '\0';
-	return (ns);
+	new_string = malloc(sizeof(*new_string) * (len_dest + len_source + 1));
+	_strcpy(destination, new_string);
+	_strcpy(source, new_string + len_dest);
+	new_string[len_dest + len_source] = '\0';
+	return (new_string);
 }
 
 /**
  * _strspn - gets the length of a prefix substring
- * @s1: string to be searched
- * @s2: string to be used
+ * @str1: string to be searched
+ * @str2: string to be used
  *
  * Return: number of bytes in the initial segment of 5 which are part of accept
  */
 
-int _strspn(char *s1, char *s2)
+int _strspn(char *str1, char *str2)
 {
-	int a = 0;
-	int find = 0;
+	int i = 0;
+	int match = 0;
 
-	for (; s1[a] != '\0'; a++)
+	while (str1[i] != '\0')
 	{
-		if (_strchr(s2, s1[a]) == NULL)
+		if (_strchr(str2, str1[i]) == NULL)
 			break;
-		find++;
+		match++;
+		i++;
 	}
-	return (find);
+	return (match);
 }
 
 /**
- * _strcspn - computes segment of s1 which consists of characters not in s2
+ * _strcspn - computes segment of str1 which consists of characters not in str2
  * @str1: string to be searched
  * @str2: string to be used
  *
@@ -73,11 +75,11 @@ int _strspn(char *s1, char *s2)
 
 int _strcspn(char *str1, char *str2)
 {
-	int len = 0, a = 0;
+	int len = 0, i;
 
-	for (; str1[a] != '\0'; a++)
+	for (i = 0; str1[i] != '\0'; i++)
 	{
-		if (_strchr(str2, str1[a]) != NULL)
+		if (_strchr(str2, str1[i]) != NULL)
 			break;
 		len++;
 	}
@@ -86,22 +88,20 @@ int _strcspn(char *str1, char *str2)
 
 /**
  * _strchr - locates a char in a string
- * @str: string to be searched
- * @ch: char to be checked
+ * @s: string to be searched
+ * @c: char to be checked
  *
- * Return: pointer to the first occurence of ch in str
+ * Return: pointer to the first occurence of c in s
  */
 
-char *_strchr(char *str, char ch)
+char *_strchr(char *s, char c)
 {
-	int a = 0;
+	int i = 0;
 
-	while (str[a] != ch && str[a] != '\0')
-	{
-		a++;
-	}
-	if (str[a] == ch)
-		return (str + a);
+	for (; s[i] != c && s[i] != '\0'; i++)
+		;
+	if (s[i] == c)
+		return (s + i);
 	else
 		return (NULL);
 }
