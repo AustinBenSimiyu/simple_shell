@@ -73,7 +73,7 @@ void env(char **);
 void quit(char **);
 
 /*main*/
-extern void non_interactive(void);
+extern void non_int(void);
 extern void initializer(char **current_command, int type_command);
 
 #endif /*SHELL_H*/
