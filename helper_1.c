@@ -36,9 +36,11 @@ char *_strcat(char *dest, char *src)
 	int ls = _strlen(src);
 
 	ns = malloc(sizeof(*ns) * (ld + ls + 1));
+
 	_strcpy(dest, ns);
 	_strcpy(src, ns + ld);
 	ns[ld + ls] = '\0';
+
 	return (ns);
 }
 
@@ -77,11 +79,12 @@ int _strcspn(char *s1, char *s2)
 {
 	int l = 0, a = 0;
 
-	for (; s1[a] != '\0'; a++)
+	while (s1[a] != '\0')
 	{
 		if (_strchr(s2, s1[a]) != NULL)
 			break;
 		l++;
+		a++;
 	}
 	return (l);
 }
@@ -98,8 +101,10 @@ char *_strchr(char *ss, char ccs)
 {
 	int a = 0;
 
-	for (; ss[a] != ccs && ss[a] != '\0'; a++)
-		;
+	while (ss[a] != ccs && ss[a] != '\0')
+	{
+		a++;
+	}
 	if (ss[a] == ccs)
 		return (ss + a);
 	else
