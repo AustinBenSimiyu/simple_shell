@@ -86,32 +86,32 @@ void execcmd(char **tokenized_command, int command_type)
  */
 char *pathc(char *command)
 {
-	char **path_array = NULL;
-	char *temp, *temp2, *path_cpy;
-	char *path = _getenv("PATH");
+	char **arrap = NULL;
+	char *tmp1, *tmp2, *pcpy;
+	char *ph = _getenv("PATH");
 	int i;
 
-	if (path == NULL || _strlen(path) == 0)
+	if (ph == NULL || _strlen(ph) == 0)
 		return (NULL);
-	path_cpy = malloc(sizeof(*path_cpy) * (_strlen(path) + 1));
-	_strcpy(path, path_cpy);
-	path_array = tkn(path_cpy, ":");
-	for (i = 0; path_array[i] != NULL; i++)
+	pcpy = malloc(sizeof(*pcpy) * (_strlen(ph) + 1));
+	_strcpy(ph, pcpy);
+	arrap = tkn(pcpy, ":");
+	for (i = 0; arrap[i] != NULL; i++)
 	{
-		temp2 = _strcat(path_array[i], "/");
-		temp = _strcat(temp2, command);
-		if (access(temp, F_OK) == 0)
+		tmp2 = _strcat(arrap[i], "/");
+		tmp1 = _strcat(tmp2, command);
+		if (access(tmp1, F_OK) == 0)
 		{
-			free(temp2);
-			free(path_array);
-			free(path_cpy);
-			return (temp);
+			free(tmp2);
+			free(arrap);
+			free(pcpy);
+			return (tmp1);
 		}
-		free(temp);
-		free(temp2);
+		free(tmp1);
+		free(tmp2);
 	}
-	free(path_cpy);
-	free(path_array);
+	free(pcpy);
+	free(arrap);
 	return (NULL);
 }
 
