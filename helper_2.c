@@ -120,7 +120,7 @@ void controlc(int signum)
 }
 
 /**
- * remove_comment - removes/ignores everything after a '#' char
+ * deletec - removes/ignores everything after a '#' char
  * @input: input to be used
  *
  * Return: void
