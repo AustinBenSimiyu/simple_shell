@@ -78,7 +78,7 @@ int _atoi(char *str)
 void *_realloc(void *ptr, unsigned int os, unsigned int ns)
 {
 	void *tmpbk;
-	unsigned int i = 0;
+	unsigned int a = 0;
 
 	if (ptr == NULL)
 	{
@@ -97,8 +97,8 @@ void *_realloc(void *ptr, unsigned int os, unsigned int ns)
 		tmpbk = malloc(ns);
 		if (tmpbk != NULL)
 		{
-			for (; i < min(os, ns); i++)
-				*((char *)tmpbk + i) = *((char *)ptr + i);
+			for (; a < min(os, ns); a++)
+				*((char *)tmpbk + a) = *((char *)ptr + a);
 			free(ptr);
 			return (tmpbk);
 		}
@@ -131,15 +131,15 @@ void controlc(int signum)
 
 void deletec(char *input)
 {
-	int i = 0;
+	int a = 0;
 
-	if (input[i] == '#')
-		input[i] = '\0';
-	while (input[i] != '\0')
+	if (input[a] == '#')
+		input[a] = '\0';
+
+	for (; input[a] != '\0'; a++)
 	{
-		if (input[i] == '#' && input[i - 1] == ' ')
+		if (input[a] == '#' && input[a - 1] == ' ')
 			break;
-		i++;
 	}
-	input[i] = '\0';
+	input[a] = '\0';
 }
