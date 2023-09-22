@@ -2,12 +2,12 @@
 
 /**
  * env - prints the current_environnement
- * @tokenized_command: command entered
+ * @tknc: command entered
  *
  * Return: void
  */
 
-void env(char **tokenized_command __attribute__((unused)))
+void env(char **tknc __attribute__((unused)))
 {
 	int i;
 
@@ -20,39 +20,39 @@ void env(char **tokenized_command __attribute__((unused)))
 
 /**
  * quit - exits the shell
- * @tokenized_command: command entered
+ * @tknc: command entered
  *
  * Return: void
  */
 
-void quit(char **tokenized_command)
+void quit(char **tknc)
 {
 	int num_token = 0, arg;
 
-	for (; tokenized_command[num_token] != NULL; num_token++)
+	for (; tknc[num_token] != NULL; num_token++)
 		;
 	if (num_token == 1)
 	{
-		free(tokenized_command);
+		free(tknc);
 		free(line);
 		free(commands);
 		exit(status);
 	}
 	else if (num_token == 2)
 	{
-		arg = _atoi(tokenized_command[1]);
+		arg = _atoi(tknc[1]);
 		if (arg == -1)
 		{
 			print(shell_name, STDERR_FILENO);
 			print(": 1: exit: Illegal number: ", STDERR_FILENO);
-			print(tokenized_command[1], STDERR_FILENO);
+			print(tknc[1], STDERR_FILENO);
 			print("\n", STDERR_FILENO);
 			status = 2;
 		}
 		else
 		{
 			free(line);
-			free(tokenized_command);
+			free(tknc);
 			free(commands);
 			exit(arg);
 		}
