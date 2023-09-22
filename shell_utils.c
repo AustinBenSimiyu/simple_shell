@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * parse_command - determines the type of the command
+ * checkcmd - determines the type of the command
  * @command: command to be parsed
  * Return: constant representing the type of the command
  * Description -
@@ -10,7 +10,7 @@
  * PATH_COMMAND (3) represents commands found in the PATH like ls
  * INVALID_COMMAND (-1) represents invalid commands
  */
-int parse_command(char *command)
+int checkcmd(char *command)
 {
 	int i;
 	char *internal_command[] = {"env", "exit", NULL};
@@ -38,19 +38,19 @@ int parse_command(char *command)
 }
 
 /**
- * execute_command - executes a command based on it's type
- * @tokenized_command: tokenized form of the command (ls -l == {ls, -l, NULL})
+ * execmd - executes a command based on it's type
+ * @tkncmd: tokenized form of the command (ls -l == {ls, -l, NULL})
  * @command_type: type of the command
  *
  * Return: void
  */
-void execute_command(char **tokenized_command, int command_type)
+void execmd(char **tkncmd, int command_type)
 {
 	void (*func)(char **command);
 
 	if (command_type == EXTERNAL_COMMAND)
 	{
-		if (execve(tokenized_command[0], tokenized_command, NULL) == -1)
+		if (execve(tkncmd[0], tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
@@ -58,7 +58,7 @@ void execute_command(char **tokenized_command, int command_type)
 	}
 	if (command_type == PATH_COMMAND)
 	{
-		if (execve(check_path(tokenized_command[0]), tokenized_command, NULL) == -1)
+		if (execve(check_path(tkncmd[0]), tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
@@ -66,14 +66,14 @@ void execute_command(char **tokenized_command, int command_type)
 	}
 	if (command_type == INTERNAL_COMMAND)
 	{
-		func = get_func(tokenized_command[0]);
-		func(tokenized_command);
+		func = get_func(tkncmd[0]);
+		func(tkncmd);
 	}
 	if (command_type == INVALID_COMMAND)
 	{
 		print(shell_name, STDERR_FILENO);
 		print(": 1: ", STDERR_FILENO);
-		print(tokenized_command[0], STDERR_FILENO);
+		print(tkncmd[0], STDERR_FILENO);
 		print(": not found\n", STDERR_FILENO);
 		status = 127;
 	}

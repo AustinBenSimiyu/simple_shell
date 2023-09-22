@@ -17,7 +17,7 @@ void non_interactive(void)
 		while (getline(&line, &n, stdin) != -1)
 		{
 			deletel(line);
-			remove_comment(line);
+			deletec(line);
 			commands = tkn(line, ";");
 			for (i = 0; commands[i] != NULL; i++)
 			{
@@ -27,7 +27,7 @@ void non_interactive(void)
 					free(current_command);
 					break;
 				}
-				type_command = parse_command(current_command[0]);
+				type_command = checkcmd(current_command[0]);
 				initializer(current_command, type_command);
 				free(current_command);
 			}

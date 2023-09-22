@@ -57,13 +57,13 @@ char *_strchr(char *, char);
 /*helpers3*/
 char *_strtok(char *, char *, char **);
 int _atoi(char *);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void *_realloc(void *ptr, unsigned int os, unsigned int nw);
 void controlc(int);
-void remove_comment(char *);
+void deletec(char *);
 
 /*utils*/
-int parse_command(char *);
-void execute_command(char **, int);
+int checkcmd(char *);
+void execmd(char **, int);
 char *check_path(char *);
 void (*get_func(char *))(char **);
 char *_getenv(char *);
