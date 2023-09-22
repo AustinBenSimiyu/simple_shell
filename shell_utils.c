@@ -27,7 +27,7 @@ int checkcmd(char *command)
 			return (INTERNAL_COMMAND);
 	}
 	/* @check_path - checks if a command is found in the PATH */
-	path = check_path(command);
+	path = pathc(command);
 	if (path != NULL)
 	{
 		free(path);
@@ -58,7 +58,7 @@ void execmd(char **tkncmd, int command_type)
 	}
 	if (command_type == PATH_COMMAND)
 	{
-		if (execve(check_path(tkncmd[0]), tkncmd, NULL) == -1)
+		if (execve(pathc(tkncmd[0]), tkncmd, NULL) == -1)
 		{
 			perror(_getenv("PWD"));
 			exit(2);
@@ -80,12 +80,12 @@ void execmd(char **tkncmd, int command_type)
 }
 
 /**
- * check_path - checks if a command is found in the PATH
+ * pathc - checks if a command is found in the PATH
  * @command: command to be used
  *
  * Return: path where the command is found in, NULL if not found
  */
-char *check_path(char *command)
+char *pathc(char *command)
 {
 	char **path_array = NULL;
 	char *temp, *temp2, *path_cpy;

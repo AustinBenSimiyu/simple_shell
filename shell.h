@@ -64,7 +64,7 @@ void deletec(char *);
 /*utils*/
 int checkcmd(char *);
 void execmd(char **, int);
-char *check_path(char *);
+char *pathc(char *);
 void (*get_func(char *))(char **);
 char *_getenv(char *);
 
